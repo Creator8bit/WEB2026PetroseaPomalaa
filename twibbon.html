@@ -12,20 +12,38 @@
   <div class="twibbon-page">
 
     <div class="twibbon-container">
+      <!-- FOTO USER -->
       <img id="photo" alt="Uploaded photo">
+
+      <!-- FRAME -->
       <img src="Assets/Frame.png" class="frame" id="frameImg" alt="Twibbon frame">
+
+      <!-- ICON LAYER -->
       <div id="icon-layer"></div>
     </div>
 
     <div class="controls">
-      <button type="button" onclick="openCamera()">📷 Ambil Foto</button>
+      <button type="button" onclick="openCamera('user')">🤳 Kamera Depan</button>
+      <button type="button" onclick="openCamera('environment')">📷 Kamera Belakang</button>
       <button type="button" onclick="document.getElementById('upload').click()">🖼 Upload Foto</button>
       <button type="button" onclick="downloadTwibbon()">⬇️ Download</button>
     </div>
 
+    <!-- input file -->
     <input type="file" id="upload" accept="image/*" hidden>
-    <input type="file" id="cameraFile" accept="image/*" capture="environment" hidden>
 
+    <!-- fallback kamera native HP -->
+    <input type="file" id="cameraFileFront" accept="image/*" capture="user" hidden>
+    <input type="file" id="cameraFileBack" accept="image/*" capture="environment" hidden>
+
+    <!-- tools foto -->
+    <div class="photo-tools">
+      <label for="photoZoom">Zoom Foto</label>
+      <input type="range" id="photoZoom" min="1" max="3" step="0.01" value="1">
+      <button type="button" onclick="resetPhotoAdjust()">Reset Foto</button>
+    </div>
+
+    <!-- icon picker -->
     <div class="icon-picker">
       <h3>Tambahkan Icon</h3>
       <div class="icon-list">
@@ -35,23 +53,24 @@
         <img src="Assets/icons/water.png" onclick="addIcon(this.src)" alt="water">
         <img src="Assets/icons/leaf.png" onclick="addIcon(this.src)" alt="leaf">
         <img src="Assets/icons/cleanup.png" onclick="addIcon(this.src)" alt="cleanup">
-        <img src="Assets/icons/stamp.png" onclick="addIcon(this.src)" alt="stampHero">
       </div>
     </div>
 
+    <!-- tools icon -->
     <div class="icon-tools">
       <label for="sizeRange">Ukuran Icon</label>
       <input type="range" id="sizeRange" min="24" max="160" value="60">
       <button type="button" onclick="deleteSelectedIcon()">🗑 Hapus Icon Terpilih</button>
     </div>
 
+    <!-- trash bin -->
     <div id="trashBin" class="trash-bin">
       🗑 Seret icon ke sini untuk hapus
     </div>
 
   </div>
 
-  <!-- Camera modal -->
+  <!-- camera modal -->
   <div id="cameraModal" class="camera-modal hidden">
     <div class="camera-panel">
       <video id="cameraVideo" autoplay playsinline></video>
@@ -65,3 +84,4 @@
   <script src="wedpml.js"></script>
 </body>
 </html>
+``
