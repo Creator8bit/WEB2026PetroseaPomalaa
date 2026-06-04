@@ -5,40 +5,62 @@
   <title>Twibbon WED 2026</title>
   <link rel="stylesheet" href="wedpml.css">
 </head>
-
 <body>
 
-<h2 style="text-align:center;">🌱 Twibbon Generator</h2>
+  <h2 class="title">🌱 Twibbon Generator</h2>
 
-<div class="twibbon-container">
-  <!-- FOTO USER -->
-  <img id="photo" alt="Uploaded photo">
+  <div class="twibbon-page">
 
-  <!-- FRAME -->
-  <img src="Assets/Frame.png" class="frame" alt="Twibbon frame">
+    <div class="twibbon-container">
+      <img id="photo" alt="Uploaded photo">
+      <img src="Assets/Frame.png" class="frame" id="frameImg" alt="Twibbon frame">
+      <div id="icon-layer"></div>
+    </div>
 
-  <!-- ICON LAYER -->
-  <div id="icon-layer"></div>
-</div>
+    <div class="controls">
+      <button type="button" onclick="openCamera()">📷 Ambil Foto</button>
+      <button type="button" onclick="document.getElementById('upload').click()">🖼 Upload Foto</button>
+      <button type="button" onclick="downloadTwibbon()">⬇️ Download</button>
+    </div>
 
-<div class="controls">
-  <input type="file" id="upload" accept="image/*">
-</div>
+    <input type="file" id="upload" accept="image/*" hidden>
+    <input type="file" id="cameraFile" accept="image/*" capture="environment" hidden>
 
-<div class="icon-picker">
-  <img src="Assets/icons/tree.png" onclick="addIcon(this.src)" alt="tree">
-  <img src="Assets/icons/recycle.png" onclick="addIcon(this.src)" alt="recycle">
-  <img src="Assets/icons/earth.png" onclick="addIcon(this.src)" alt="earth">
-  <img src="Assets/icons/water.png" onclick="addIcon(this.src)" alt="water">
-  <img src="Assets/icons/leaf.png" onclick="addIcon(this.src)" alt="leaf">
-  <img src="Assets/icons/cleanup.png" onclick="addIcon(this.src)" alt="cleanup">
-</div>
+    <div class="icon-picker">
+      <h3>Tambahkan Icon</h3>
+      <div class="icon-list">
+        <img src="Assets/icons/tree.png" onclick="addIcon(this.src)" alt="tree">
+        <img src="Assets/icons/recycle.png" onclick="addIcon(this.src)" alt="recycle">
+        <img src="Assets/icons/earth.png" onclick="addIcon(this.src)" alt="earth">
+        <img src="Assets/icons/water.png" onclick="addIcon(this.src)" alt="water">
+        <img src="Assets/icons/leaf.png" onclick="addIcon(this.src)" alt="leaf">
+        <img src="Assets/icons/cleanup.png" onclick="addIcon(this.src)" alt="cleanup">
+      </div>
+    </div>
 
-<div class="controls">
-  <button onclick="download()">⬇️ Download</button>
-</div>
+    <div class="icon-tools">
+      <label for="sizeRange">Ukuran Icon</label>
+      <input type="range" id="sizeRange" min="24" max="160" value="60">
+      <button type="button" onclick="deleteSelectedIcon()">🗑 Hapus Icon Terpilih</button>
+    </div>
 
-<script src="wedpml.js"></script>
+    <div id="trashBin" class="trash-bin">
+      🗑 Seret icon ke sini untuk hapus
+    </div>
 
+  </div>
+
+  <!-- Camera modal -->
+  <div id="cameraModal" class="camera-modal hidden">
+    <div class="camera-panel">
+      <video id="cameraVideo" autoplay playsinline></video>
+      <div class="camera-actions">
+        <button type="button" onclick="takePhoto()">📸 Gunakan Foto</button>
+        <button type="button" onclick="closeCamera()">✖ Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="wedpml.js"></script>
 </body>
 </html>
