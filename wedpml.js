@@ -1,28 +1,10 @@
-// =====================
-// HOMEPAGE NAVIGATION
-// =====================
-function goTwibbon() {
-  window.location.href = "twibbon.html";
-}
-
-function goGame() {
-  alert("Eco Game coming soon 🌱");
-}
-
-function goStory() {
-  alert("Kembali lagi setelah tanggal 06/06/2026📖!");
-}
-
-// =====================
-// ELEMENTS
-// =====================
-const upload = document.getElementById("upload");
-const cameraFile = document.getElementById("cameraFile");
-const photo = document.getElementById("photo");
+// =====================// =====================Id("photo");
 const layer = document.getElementById("icon-layer");
 const container = document.querySelector(".twibbon-container");
 const sizeRange = document.getElementById("sizeRange");
+const photoZoom = document.getElementById("photoZoom");
 const trashBin = document.getElementById("trashBin");
+const frameImg = document.getElementById("frameImg");
 
 const cameraModal = document.getElementById("cameraModal");
 const cameraVideo = document.getElementById("cameraVideo");
@@ -31,11 +13,53 @@ let selectedIcon = null;
 let currentStream = null;
 
 // =====================
+// PHOTO STATE (ZOOM + REPOSITION)
+// =====================
+let photoState = {
+  scale: 1,
+  x: 0,
+  y: 0
+};
+
+let draggingPhoto = false;
+let startPhotoX = 0;
+let startPhotoY = 0;
+
+// =====================
+// HELPERS PHOTO
+// =====================
+function clampPhotoPosition() {
+  if (!container) return;
+
+  const maxX = (container.clientWidth * (photoState.scale - 1)) / 2;
+  const maxY = (container.clientHeight * (photoState.scale - 1)) / 2;
+
+  photoState.x = Math.max(-maxX, Math.min(photoState.x, maxX));
+  photoState.y = Math.max(-maxY, Math.min(photoState.y, maxY));
+}
+
+function applyPhotoTransform() {
+  if (!photo) return;
+  clampPhotoPosition();
+  photo.style.transform = `translate(${photoState.x}px, ${photoState.y}px) scale(${photoState.scale})`;
+}
+
+function resetPhotoAdjust() {
+  photoState.scale = 1;
+  photoState.x = 0;
+  photoState.y = 0;
+
+  if (photoZoom) photoZoom.value = 1;
+  applyPhotoTransform();
+}
+
+// =====================
 // LOAD PHOTO FROM FILE
 // =====================
 function setPhotoFromFile(file) {
   if (!file || !photo) return;
   photo.src = URL.createObjectURL(file);
+  setTimeout(() => resetPhotoAdjust(), 50);
 }
 
 if (upload) {
@@ -45,26 +69,44 @@ if (upload) {
   });
 }
 
-if (cameraFile) {
-  cameraFile.addEventListener("change", (e) => {
+if (cameraFileFront) {
+  cameraFileFront.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    setPhotoFromFile(file);
+  });
+}
+
+if (cameraFileBack) {
+  cameraFileBack.addEventListener("change", (e) => {
     const file = e.target.files[0];
     setPhotoFromFile(file);
   });
 }
 
 // =====================
-// CAMERA
+// CAMERA FRONT/BACK
 // =====================
-async function openCamera() {
-  // fallback mobile kalau browser desktop/mobile tidak kasih akses video
+async function openCamera(mode = "user") {
+  // fallback ke input kamera native kalau getUserMedia tidak tersedia
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    if (cameraFile) cameraFile.click();
+    if (mode === "environment" && cameraFileBack) {
+      cameraFileBack.click();
+    } else if (cameraFileFront) {
+      cameraFileFront.click();
+    }
     return;
   }
 
   try {
+    if (currentStream) {
+      currentStream.getTracks().forEach(track => track.stop());
+      currentStream = null;
+    }
+
     currentStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: "user" },
+      video: {
+        facingMode: { ideal: mode }
+      },
       audio: false
     });
 
@@ -72,9 +114,18 @@ async function openCamera() {
       cameraVideo.srcObject = currentStream;
       cameraModal.classList.remove("hidden");
     }
+
   } catch (err) {
-    // fallback ke camera file input
-    if (cameraFile) cameraFile.click();
+    console.error(err);
+
+    // fallback ke kamera native HP
+    if (mode === "environment" && cameraFileBack) {
+      cameraFileBack.click();
+    } else if (cameraFileFront) {
+      cameraFileFront.click();
+    } else {
+      alert("Kamera tidak bisa dibuka. Coba izinkan akses kamera di browser.");
+    }
   }
 }
 
@@ -100,19 +151,60 @@ function takePhoto() {
   tempCanvas.width = cameraVideo.videoWidth;
   tempCanvas.height = cameraVideo.videoHeight;
 
-  const tempCtx = tempCanvas.getContext("2d");
-  tempCtx.drawImage(cameraVideo, 0, 0, tempCanvas.width, tempCanvas.height);
+  const ctx = tempCanvas.getContext("2d");
+  ctx.drawImage(cameraVideo, 0, 0, tempCanvas.width, tempCanvas.height);
 
   photo.src = tempCanvas.toDataURL("image/png");
+  setTimeout(() => resetPhotoAdjust(), 50);
+
   closeCamera();
 }
 
 // =====================
-// ICON HELPERS
+// PHOTO ZOOM SLIDER
+// =====================
+if (photoZoom) {
+  photoZoom.addEventListener("input", () => {
+    photoState.scale = parseFloat(photoZoom.value);
+    applyPhotoTransform();
+  });
+}
+
+// =====================
+// DRAG PHOTO (DESKTOP + MOBILE)
+// =====================
+if (photo && container) {
+  photo.addEventListener("pointerdown", (e) => {
+    draggingPhoto = true;
+    startPhotoX = e.clientX - photoState.x;
+    startPhotoY = e.clientY - photoState.y;
+    photo.setPointerCapture(e.pointerId);
+  });
+
+  photo.addEventListener("pointermove", (e) => {
+    if (!draggingPhoto) return;
+
+    photoState.x = e.clientX - startPhotoX;
+    photoState.y = e.clientY - startPhotoY;
+    applyPhotoTransform();
+  });
+
+  photo.addEventListener("pointerup", () => {
+    draggingPhoto = false;
+  });
+
+  photo.addEventListener("pointercancel", () => {
+    draggingPhoto = false;
+  });
+}
+
+// =====================
+// ICON SELECT
 // =====================
 function selectIcon(icon) {
   document.querySelectorAll("#icon-layer img").forEach(i => i.classList.remove("selected"));
   selectedIcon = icon;
+
   if (selectedIcon) {
     selectedIcon.classList.add("selected");
     if (sizeRange) {
@@ -162,7 +254,6 @@ function addIcon(src) {
   });
 }
 
-// unselect icon kalau klik area kosong
 if (layer) {
   layer.addEventListener("click", (e) => {
     if (e.target === layer) {
@@ -199,14 +290,12 @@ function makeDraggable(icon) {
     let x = e.clientX - layerRect.left - offsetX;
     let y = e.clientY - layerRect.top - offsetY;
 
-    // batasi supaya tidak keluar layer
     x = Math.max(0, Math.min(x, layerRect.width - icon.offsetWidth));
     y = Math.max(0, Math.min(y, layerRect.height - icon.offsetHeight));
 
     icon.style.left = x + "px";
     icon.style.top = y + "px";
 
-    // highlight trash kalau dekat
     if (trashBin) {
       const trashRect = trashBin.getBoundingClientRect();
       const overTrash =
@@ -238,10 +327,17 @@ function makeDraggable(icon) {
       trashBin.classList.remove("active");
     }
   });
+
+  icon.addEventListener("pointercancel", () => {
+    dragging = false;
+    if (trashBin) {
+      trashBin.classList.remove("active");
+    }
+  });
 }
 
 // =====================
-// DOWNLOAD HIGH RES
+// EXPORT HELPERS
 // =====================
 function loadImage(src) {
   return new Promise((resolve, reject) => {
@@ -252,8 +348,7 @@ function loadImage(src) {
   });
 }
 
-// draw image cover seperti CSS object-fit: cover
-function drawCover(ctx, img, x, y, w, h) {
+function drawCoverAdjusted(ctx, img, x, y, w, h) {
   const imgRatio = img.width / img.height;
   const boxRatio = w / h;
 
@@ -271,25 +366,38 @@ function drawCover(ctx, img, x, y, w, h) {
     dy = y - (drawHeight - h) / 2;
   }
 
-  ctx.drawImage(img, dx, dy, drawWidth, drawHeight);
+  const scaledWidth = drawWidth * photoState.scale;
+  const scaledHeight = drawHeight * photoState.scale;
+
+  const xRatio = w / container.clientWidth;
+  const yRatio = h / container.clientHeight;
+
+  const translatedX = photoState.x * xRatio;
+  const translatedY = photoState.y * yRatio;
+
+  const finalX = dx - (scaledWidth - drawWidth) / 2 + translatedX;
+  const finalY = dy - (scaledHeight - drawHeight) / 2 + translatedY;
+
+  ctx.drawImage(img, finalX, finalY, scaledWidth, scaledHeight);
 }
 
+// =====================
+// DOWNLOAD HIGH RES
+// =====================
 async function downloadTwibbon() {
   if (!photo || !photo.src) {
     alert("Upload atau ambil foto dulu ya, Enviro Hero!");
     return;
   }
 
-  const frameElement = document.getElementById("frameImg");
-  const frameSrc = frameElement ? frameElement.src : "Assets/Frame.png";
-
   try {
     const photoImg = await loadImage(photo.src);
-    const frameImg = await loadImage(frameSrc);
+    const frameAsset = frameImg ? frameImg.src : "Assets/Frame.png";
+    const frame = await loadImage(frameAsset);
 
     // output besar supaya tajam
-    const OUTPUT_W = 1600;
-    const OUTPUT_H = Math.round(OUTPUT_W * (frameImg.height / frameImg.width || 1));
+    const OUTPUT_W = 2048;
+    const OUTPUT_H = Math.round(OUTPUT_W * (frame.height / frame.width || 1));
 
     const canvas = document.createElement("canvas");
     canvas.width = OUTPUT_W;
@@ -297,13 +405,13 @@ async function downloadTwibbon() {
 
     const ctx = canvas.getContext("2d");
 
-    // foto background mode cover
-    drawCover(ctx, photoImg, 0, 0, OUTPUT_W, OUTPUT_H);
+    // draw foto dengan adjustment
+    drawCoverAdjusted(ctx, photoImg, 0, 0, OUTPUT_W, OUTPUT_H);
 
-    // frame
-    ctx.drawImage(frameImg, 0, 0, OUTPUT_W, OUTPUT_H);
+    // draw frame
+    ctx.drawImage(frame, 0, 0, OUTPUT_W, OUTPUT_H);
 
-    // icons
+    // draw icons
     if (container && layer) {
       const containerRect = container.getBoundingClientRect();
       const icons = document.querySelectorAll("#icon-layer img");
@@ -334,3 +442,24 @@ async function downloadTwibbon() {
     alert("Gagal membuat twibbon. Cek apakah foto dan asset sudah terbaca.");
   }
 }
+``
+// HOMEPAGE NAVIGATION
+// =====================
+function goTwibbon() {
+  window.location.href = "twibbon.html";
+}
+
+function goGame() {
+  alert("Eco Game coming soon 🌱");
+}
+
+function goStory() {
+  alert("Our Story coming soon 📖");
+}
+
+// =====================
+// ELEMENTS
+// =====================
+const upload = document.getElementById("upload");
+const cameraFileFront = document.getElementById("cameraFileFront");
+const cameraFileBack = document.getElementById("cameraFileBack");
