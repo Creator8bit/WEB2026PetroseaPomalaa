@@ -1,1 +1,41 @@
+body {
+  margin: 0;
+  font-family: Arial;
+}
 
+.home {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ✅ background full */
+.bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ✅ posisi tombol */
+.button-container {
+  position: absolute;
+  bottom: 100px; /* adjust sesuai posisi di gambar */
+  width: 100%;
+  text-align: center;
+}
+
+/* ✅ style button */
+.btn {
+  background: #0f5b43;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  margin: 10px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #0b3f2f;
+}
