@@ -1,94 +1,11 @@
 html, body {
   margin: 0;
-.2s ease;  height: 100%;
-}
-
-.icon-picker img:hover {
-  transform: scale(1.08);
-}
-
-.icon-tools,
-.photo-tools {
-  max-width: 520px;
-  margin: 18px auto 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-#sizeRange,
-#photoZoom {
-  width: 220px;
-}
-
-.trash-bin {
-  max-width: 520px;
-  margin: 14px auto 0;
-  padding: 12px;
-  text-align: center;
-  border: 2px dashed #999;
-  border-radius: 12px;
-  background: #fafafa;
-  color: #555;
-  transition: all 0.2s ease;
-}
-
-.trash-bin.active {
-  border-color: #c62828;
-  background: #ffebee;
-  color: #b71c1c;
-}
-
-.camera-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-
-.camera-modal.hidden {
-  display: none;
-}
-
-.camera-panel {
-  background: white;
-  padding: 16px;
-  border-radius: 14px;
-  width: min(92vw, 520px);
-}
-
-#cameraVideo {
-  width: 100%;
-  border-radius: 12px;
-  background: black;
-}
-
-.camera-actions {
-  text-align: center;
-  margin-top: 12px;
-}
-
-@media (max-width: 768px) {
-  .icon-tools,
-  .photo-tools {
-    flex-direction: column;
-  }
-
-  #sizeRange,
-  #photoZoom {
-    width: 80%;
-  }
-}
+  height: 100%;
   font-family: Arial, sans-serif;
 }
 
 /* =========================
-   HOMEPAGE (boleh tetap)
+   HOMEPAGE (biarkan kalau sudah oke)
 ========================= */
 .home {
   display: flex;
@@ -160,10 +77,6 @@ html, body {
   height: 100%;
   object-fit: cover;
   display: block;
-  position: absolute;
-  inset: 0;
-  touch-action: none;
-  transform-origin: center center;
 }
 
 .frame {
@@ -179,8 +92,7 @@ html, body {
   position: absolute;
   inset: 0;
   z-index: 3;
-  pointer-events: none; /* area kosong bisa dipakai geser foto */
-  touch-action: none;
+  touch-action: none; /* penting untuk drag di mobile */
 }
 
 #icon-layer img {
@@ -189,7 +101,6 @@ html, body {
   user-select: none;
   -webkit-user-drag: none;
   touch-action: none;
-  pointer-events: auto;
 }
 
 #icon-layer img.selected {
@@ -204,9 +115,7 @@ html, body {
 }
 
 .controls button,
-.icon-tools button,
-.photo-tools button,
-.camera-actions button {
+.icon-tools button {
   background: #0f5b43;
   color: white;
   border: none;
@@ -217,9 +126,7 @@ html, body {
 }
 
 .controls button:hover,
-.icon-tools button:hover,
-.photo-tools button:hover,
-.camera-actions button:hover {
+.icon-tools button:hover {
   background: #137a5a;
 }
 
@@ -244,3 +151,89 @@ html, body {
   height: 44px;
   object-fit: contain;
   cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icon-picker img:hover {
+  transform: scale(1.08);
+}
+
+.icon-tools {
+  max-width: 520px;
+  margin: 18px auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#sizeRange {
+  width: 220px;
+}
+
+.trash-bin {
+  max-width: 520px;
+  margin: 14px auto 0;
+  padding: 12px;
+  text-align: center;
+  border: 2px dashed #999;
+  border-radius: 12px;
+  background: #fafafa;
+  color: #555;
+  transition: all 0.2s ease;
+}
+
+.trash-bin.active {
+  border-color: #c62828;
+  background: #ffebee;
+  color: #b71c1c;
+}
+
+/* camera modal */
+.camera-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.camera-modal.hidden {
+  display: none;
+}
+
+.camera-panel {
+  background: white;
+  padding: 16px;
+  border-radius: 14px;
+  width: min(92vw, 520px);
+}
+
+#cameraVideo {
+  width: 100%;
+  border-radius: 12px;
+  background: black;
+}
+
+.camera-actions {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.camera-actions button {
+  margin: 0 6px;
+  padding: 10px 14px;
+}
+
+@media (max-width: 768px) {
+  .icon-tools {
+    flex-direction: column;
+  }
+
+  #sizeRange {
+    width: 80%;
+  }
+}
