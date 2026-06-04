@@ -4,30 +4,34 @@ html, body {
   font-family: Arial;
 }
 
-/* ✅ CONTAINER */
+/* ✅ center layout */
 .home {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
-  overflow: hidden;
 }
 
-/* ✅ BACKGROUND */
-.bg {
-  position: absolute; /* 🔥 penting supaya full control */
-  top: 0;
-  left: 0;
-
+/* ✅ WRAPPER */
+.bg-wrapper {
+  position: relative;
   width: 100%;
-  height: 100%;
-
-  object-fit: cover; /* tetap cover */
-  z-index: -1;
+  max-width: 1200px; /* 🔥 biar rapi di desktop */
 }
 
-/* ✅ BUTTON CONTAINER */
+/* ✅ IMAGE */
+.bg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ✅ BUTTON di atas image */
 .button-container {
   position: absolute;
-  bottom: 8vh;   /* 🔥 pakai vh biar zoom lebih smooth */
+
+  /* 🔥 INI YANG NGIKUTIN BACKGROUND */
+  bottom: 12%;
   width: 100%;
   text-align: center;
 }
@@ -38,15 +42,25 @@ html, body {
   color: white;
   border: none;
 
-  padding: 1.5vh 3vh;   /* 🔥 responsive scale */
-  margin: 1vh;
+  padding: 12px 28px;
+  margin: 0 15px;   /* 🔥 JARAK lebih lebar */
 
-  border-radius: 10px;
+  border-radius: 12px;
+  font-size: 16px;
 
-  font-size: 2vh;       /* 🔥 ikut scaling layar */
   cursor: pointer;
+
+  /* 🔥 SHADOW */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+
+  transition: all 0.25s ease;
 }
 
+/* ✅ HOVER EFFECT */
 .btn:hover {
-  background: #0b3f2f;
+  background: #137a5a;
+
+  transform: translateY(-3px);
+
+  box-shadow: 0 8px 18px rgba(0,0,0,0.6);
 }
