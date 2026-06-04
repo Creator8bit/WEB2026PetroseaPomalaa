@@ -64,3 +64,51 @@ html, body {
 
   box-shadow: 0 8px 18px rgba(0,0,0,0.6);
 }
+
+/*Twibbon*/
+.twibbon-container {
+  position: relative;
+  width: 320px;
+  margin: auto;
+}
+
+#photo {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+}
+
+.frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+#icon-layer img {
+  position: absolute;
+  width: 50px;
+}
+
+/* ICON PICKER */
+.icon-picker {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.icon-picker img {
+  width: 40px;
+  margin: 6px;
+  cursor: pointer;
+}
+
+/* BUTTON */
+.controls {
+  text-align: center;
+  margin-top: 15px;
+}
+
+button {
+  padding: 10px 20px;
+}
