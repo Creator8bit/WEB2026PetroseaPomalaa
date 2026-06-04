@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Twibbon WED 2026</title>
+  <link rel="stylesheet" href="wedpml.css">
+</head>
+
+<body>
+
+<h2 style="text-align:center;">🌱 Twibbon Generator</h2>
+
+<div class="twibbon-container">
+
+  <!-- ✅ VIDEO / UPLOAD -->
+  <video id="video" autoplay playsinline></video>
+  <canvas id="canvas"></canvas>
+
+  <!-- ✅ FRAME -->
+  <img src="Assets/Frame.png" class="frame">
+
+  <!-- ✅ ICON LAYER -->
+  <div id="icon-layer"></div>
+
+</div>
+
+<!-- ✅ ICON PICKER -->
+<div class="icon-picker">
+
+  <img src="Assets/icons/tree.png" onclick="addIcon(this.src)">
+  <img src="Assets/icons/recycle.png" onclick="addIcon(this.src)">
+  <img src="Assets/icons/earth.png" onclick="addIcon(this.src)">
+  <img src="Assets/icons/water.png" onclick="addIcon(this.src)">
+  <img src="Assets/icons/leaf.png" onclick="addIcon(this.src)">
+  <img src="Assets/icons/cleanup.png" onclick="addIcon(this.src)">
+
+</div>
+
+<!-- ✅ CONTROL -->
+<div class="controls">
+  <button onclick="startCamera()">🎥 Camera</button>
+  <input type="file" id="upload" accept="image/*">
+  <button onclick="capture()">📸 Capture</button>
+  <button onclick="download()">⬇️ Download</button>
+</div>
+
+<script src="wedpml.js"></script>
+
+</body>
+</html>
