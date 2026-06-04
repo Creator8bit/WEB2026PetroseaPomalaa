@@ -1,30 +1,46 @@
 // =====================
-// ✅ ELEMENT
+// NAVIGATION (homepage)
+// =====================
+function goTwibbon() {
+  window.location.href = "twibbon.html";
+}
+
+function goGame() {
+  alert("Eco Game coming soon 🌱");
+}
+
+function goStory() {
+  alert("Our Story coming soon 📖");
+}
+
+// =====================
+// TWIBBON ELEMENTS
 // =====================
 const upload = document.getElementById("upload");
 const photo = document.getElementById("photo");
+const layer = document.getElementById("icon-layer");
+const container = document.querySelector(".twibbon-container");
 
 // =====================
-// ✅ UPLOAD FOTO
+// UPLOAD FOTO
 // =====================
 if (upload && photo) {
   upload.addEventListener("change", function (e) {
     const file = e.target.files[0];
+    if (!file) return;
+
     photo.src = URL.createObjectURL(file);
   });
 }
 
 // =====================
-// ✅ TAMBAH ICON
+// TAMBAH ICON
 // =====================
 function addIcon(src) {
-  const layer = document.getElementById("icon-layer");
   if (!layer) return;
 
   const icon = document.createElement("img");
   icon.src = src;
-
-  // posisi awal
   icon.style.position = "absolute";
   icon.style.top = "100px";
   icon.style.left = "100px";
@@ -33,11 +49,9 @@ function addIcon(src) {
 
   layer.appendChild(icon);
 
-  // =====================
-  // ✅ DRAG ICON (BISA GESER 🔥)
-  // =====================
   let isDragging = false;
-  let offsetX, offsetY;
+  let offsetX = 0;
+  let offsetY = 0;
 
   icon.addEventListener("mousedown", (e) => {
     isDragging = true;
@@ -47,10 +61,9 @@ function addIcon(src) {
 
   document.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
-
     const rect = layer.getBoundingClientRect();
-    icon.style.left = e.clientX - rect.left - offsetX + "px";
-    icon.style.top = e.clientY - rect.top - offsetY + "px";
+    icon.style.left = (e.clientX - rect.left - offsetX) + "px";
+    icon.style.top = (e.clientY - rect.top - offsetY) + "px";
   });
 
   document.addEventListener("mouseup", () => {
@@ -59,12 +72,10 @@ function addIcon(src) {
 }
 
 // =====================
-// ✅ DOWNLOAD CLEAN PNG
+// DOWNLOAD CLEAN PNG
 // =====================
 function download() {
-  const photo = document.getElementById("photo");
-
-  if (!photo.src) {
+  if (!photo || !photo.src) {
     alert("Upload foto dulu ya, Enviro Hero!");
     return;
   }
@@ -73,37 +84,44 @@ function download() {
   const ctx = canvas.getContext("2d");
 
   const img = new Image();
-  img.crossOrigin = "anonymous";
   img.src = photo.src;
 
   img.onload = () => {
     canvas.width = img.width;
     canvas.height = img.height;
 
-    // ✅ FOTO USER
+    // foto
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-    // ✅ FRAME
+    // frame
     const frame = new Image();
     frame.src = "Assets/Frame.png";
 
     frame.onload = () => {
       ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
 
-      // ✅ ICON (SEMUA DIAMBIL DARI LAYER)
-      const icons = document.querySelectorAll("#icon-layer img");
+      // icons
+      if (container && layer) {
+        const containerRect = container.getBoundingClientRect();
+        const icons = document.querySelectorAll("#icon-layer img");
 
-      icons.forEach(icon => {
-        const x = icon.offsetLeft;
-        const y = icon.offsetTop;
+        icons.forEach((icon) => {
+          const iconRect = icon.getBoundingClientRect();
+          const xRatio = canvas.width / containerRect.width;
+          const yRatio = canvas.height / containerRect.height;
 
-        const iconImg = new Image();
-        iconImg.src = icon.src;
+          const x = (iconRect.left - containerRect.left) * xRatio;
+          const y = (iconRect.top - containerRect.top) * yRatio;
+          const w = iconRect.width * xRatio;
+          const h = iconRect.height * yRatio;
 
-        ctx.drawImage(iconImg, x, y, 50, 50);
-      });
+          const iconImg = new Image();
+          iconImg.src = icon.src;
+          ctx.drawImage(iconImg, x, y, w, h);
+        });
+      }
 
-      // ✅ EXPORT
+      // export
       const link = document.createElement("a");
       link.download = "twibbon-wed2026.png";
       link.href = canvas.toDataURL("image/png");
