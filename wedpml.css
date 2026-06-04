@@ -65,17 +65,24 @@ html, body {
   box-shadow: 0 8px 18px rgba(0,0,0,0.6);
 }
 
-/*Twibbon*/
+/* =========================================
+   TWIBBON
+========================================= */
 .twibbon-container {
   position: relative;
   width: 320px;
+  aspect-ratio: 1 / 1;   /* biar area preview selalu ada */
   margin: auto;
+  background: #e9ecef;   /* placeholder abu tipis */
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 #photo {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
-  border-radius: 10px;
 }
 
 .frame {
@@ -83,7 +90,15 @@ html, body {
   top: 0;
   left: 0;
   width: 100%;
+  height: 100%;
   pointer-events: none;
+  z-index: 2;
+}
+
+#icon-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
 }
 
 #icon-layer img {
@@ -91,7 +106,6 @@ html, body {
   width: 50px;
 }
 
-/* ICON PICKER */
 .icon-picker {
   text-align: center;
   margin-top: 15px;
@@ -103,7 +117,6 @@ html, body {
   cursor: pointer;
 }
 
-/* BUTTON */
 .controls {
   text-align: center;
   margin-top: 15px;
