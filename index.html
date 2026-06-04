@@ -1,52 +1,28 @@
-html, body {
-  margin: 0;
-  height: 100%;
-  font-family: Arial;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WED 2026</title>
+  <link rel="stylesheet" href="wedpml.css">
+</head>
 
-/* ✅ CONTAINER */
-.home {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-}
+<body>
 
-/* ✅ BACKGROUND */
-.bg {
-  position: absolute; /* 🔥 penting supaya full control */
-  top: 0;
-  left: 0;
+<div class="home">
 
-  width: 100%;
-  height: 100%;
+  <!-- ✅ BACKGROUND FULL -->
+  <img src="Assets/WEDbackground.png" class="bg">
 
-  object-fit: cover; /* tetap cover */
-  z-index: -1;
-}
+  <!-- ✅ BUTTON OVERLAY -->
+  <div class="button-container">
+    <button onclick="goTwibbon()" class="btn">TWIBBON</button>
+    <button onclick="goGame()" class="btn">Eco-Game</button>
+    <button onclick="goStory()" class="btn">Our Story</button>
+  </div>
 
-/* ✅ BUTTON CONTAINER */
-.button-container {
-  position: absolute;
-  bottom: 8vh;   /* 🔥 pakai vh biar zoom lebih smooth */
-  width: 100%;
-  text-align: center;
-}
+</div>
 
-/* ✅ BUTTON STYLE */
-.btn {
-  background: #0f5b43;
-  color: white;
-  border: none;
+<script src="wedpml.js"></script>
 
-  padding: 1.5vh 3vh;   /* 🔥 responsive scale */
-  margin: 1vh;
-
-  border-radius: 10px;
-
-  font-size: 2vh;       /* 🔥 ikut scaling layar */
-  cursor: pointer;
-}
-
-.btn:hover {
-  background: #0b3f2f;
-}
+</body>
+</html>
