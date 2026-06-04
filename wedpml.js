@@ -10,7 +10,7 @@ function goGame() {
 }
 
 function goStory() {
-  alert("Our Story coming soon 📖");
+  alert("Kembali lagi setelah tanggal 06/06/2026📖!");
 }
 
 // =====================
