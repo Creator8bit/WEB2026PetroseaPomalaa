@@ -6,11 +6,11 @@ function goTwibbon() {
 }
 
 function goGame() {
-  alert("Eco Game coming soon 🌱");
+  alert("Eco Game akan rilis tanggal 07/06/2026 🌱");
 }
 
 function goStory() {
-  alert("Kembali lagi setelah tanggal 06/06/2026📖!");
+  alert("Our Story akan rilis tanggal 07/06/2026📖!");
 }
 
 // =====================
