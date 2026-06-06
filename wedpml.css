@@ -356,6 +356,10 @@ html, body {
   cursor: pointer;
   border-radius: 50%;
 }
+  
+  background: rgba(255, 0, 0, 0.25); /* 🔥 DEBUG */
+}
+
 
 /* aktifkan ini sementara kalau mau debug area klik */
 /*
