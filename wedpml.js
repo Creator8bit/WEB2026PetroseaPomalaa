@@ -1,7 +1,5 @@
 // =====================
-// HOMEPAGE NAVIGATION
-// =====================
-function goTwibbon() {
+// HOMEPAGE NAVIGATIONTwibbon() {// HOMEPAGE NAVIGATION
   window.location.href = "twibbon.html";
 }
 
@@ -14,7 +12,7 @@ function goStory() {
 }
 
 // =====================
-// ELEMENTS
+// TWIBBON ELEMENTS
 // =====================
 const upload = document.getElementById("upload");
 const cameraFile = document.getElementById("cameraFile");
@@ -56,7 +54,6 @@ if (cameraFile) {
 // CAMERA
 // =====================
 async function openCamera() {
-  // fallback mobile kalau browser desktop/mobile tidak kasih akses video
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     if (cameraFile) cameraFile.click();
     return;
@@ -73,7 +70,6 @@ async function openCamera() {
       cameraModal.classList.remove("hidden");
     }
   } catch (err) {
-    // fallback ke camera file input
     if (cameraFile) cameraFile.click();
   }
 }
@@ -162,7 +158,6 @@ function addIcon(src) {
   });
 }
 
-// unselect icon kalau klik area kosong
 if (layer) {
   layer.addEventListener("click", (e) => {
     if (e.target === layer) {
@@ -173,7 +168,7 @@ if (layer) {
 }
 
 // =====================
-// DRAG ICON (DESKTOP + MOBILE)
+// DRAG ICON
 // =====================
 function makeDraggable(icon) {
   let dragging = false;
@@ -199,14 +194,12 @@ function makeDraggable(icon) {
     let x = e.clientX - layerRect.left - offsetX;
     let y = e.clientY - layerRect.top - offsetY;
 
-    // batasi supaya tidak keluar layer
     x = Math.max(0, Math.min(x, layerRect.width - icon.offsetWidth));
     y = Math.max(0, Math.min(y, layerRect.height - icon.offsetHeight));
 
     icon.style.left = x + "px";
     icon.style.top = y + "px";
 
-    // highlight trash kalau dekat
     if (trashBin) {
       const trashRect = trashBin.getBoundingClientRect();
       const overTrash =
@@ -252,7 +245,6 @@ function loadImage(src) {
   });
 }
 
-// draw image cover seperti CSS object-fit: cover
 function drawCover(ctx, img, x, y, w, h) {
   const imgRatio = img.width / img.height;
   const boxRatio = w / h;
@@ -287,7 +279,6 @@ async function downloadTwibbon() {
     const photoImg = await loadImage(photo.src);
     const frameImg = await loadImage(frameSrc);
 
-    // output besar supaya tajam
     const OUTPUT_W = 1600;
     const OUTPUT_H = Math.round(OUTPUT_W * (frameImg.height / frameImg.width || 1));
 
@@ -297,13 +288,9 @@ async function downloadTwibbon() {
 
     const ctx = canvas.getContext("2d");
 
-    // foto background mode cover
     drawCover(ctx, photoImg, 0, 0, OUTPUT_W, OUTPUT_H);
-
-    // frame
     ctx.drawImage(frameImg, 0, 0, OUTPUT_W, OUTPUT_H);
 
-    // icons
     if (container && layer) {
       const containerRect = container.getBoundingClientRect();
       const icons = document.querySelectorAll("#icon-layer img");
@@ -335,10 +322,6 @@ async function downloadTwibbon() {
   }
 }
 
-function openScene(scene) {
-  window.location.href = "scene-" + scene + ".html";
-}
-
 // =====================
 // ECO GAME NAVIGATION
 // =====================
@@ -349,10 +332,20 @@ function openScene(scene) {
 // =====================
 // WRONG CLICK
 // =====================
-function wrongClick(event, infoId) {
-  const info = document.getElementById(infoId);
-  if (!info) return;
-  info.innerText = "❌ Bukan di area ini 😏";
+function wrongClick(event) {
+  const officeInfo = document.getElementById("info");
+  const workshopInfo = document.getElementById("info-workshop");
+  const campInfo = document.getElementById("info-camp");
+
+  if (officeInfo) {
+    officeInfo.innerText = "❌ Bukan di area ini 😏";
+  }
+  if (workshopInfo) {
+    workshopInfo.innerText = "❌ Bukan di area ini 😏";
+  }
+  if (campInfo) {
+    campInfo.innerText = "❌ Bukan di area ini 😏";
+  }
 }
 
 // =====================
@@ -414,3 +407,4 @@ function foundCamp(id) {
     info.innerText = "❌ Poor Waste Management — sampah berserakan dan tidak dikelola dengan baik.";
   }
 }
+// =====================
