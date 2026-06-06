@@ -10,24 +10,18 @@
 
 <h2 class="scene-title">🏕 Temp Camp - Find the Mistake</h2>
 
-<div class="scene-container">
+<!-- ✅ CONTAINER (WAJIB ADA WRONG CLICK) -->
+<div class="scene-container" onclick="wrongClick(event)">
 
-  <img src="Assets/scenes/TempCamp.jpeg" class="scene-img">
+  <!-- ✅ GAMBAR -->
+  <img src="Assets/scenes/TempCamp.jpeg" alt="Temp Camp Scene">
 
-  <!-- BAKAR SAMPAH -->
-  <div class="spot" style="top:50%; left:60%;" onclick="foundCamp(1)"></div>
+  <!-- ✅ 1. BAKAR SAMPAH (KANAN) -->
+  <div class="spot"
+       style="top:35%; left:65%; width:18%; height:22%;"
+       onclick="foundCamp(1); event.stopPropagation();"></div>
 
-  <!-- LIMBAH CAIR -->
-  <div class="spot" style="top:70%; left:40%;" onclick="foundCamp(2)"></div>
-
-  <!-- SAMPAH -->
-  <div class="spot" style="top:65%; left:20%;" onclick="foundCamp(3)"></div>
-
-</div>
-
-<p id="info-camp" class="info-text"></p>
-
-<script src="wedpml.js"></script>
-
-</body>
-</html>
+  <!-- ✅ 2. LIMBAH CAIR (TENGAH BAWAH) -->
+  <div class="spot"
+       style="top:65%; left:45%; width:15%; height:15%;"
+       onclick="foundCamp(2); event.stopPropagation();"></div>
