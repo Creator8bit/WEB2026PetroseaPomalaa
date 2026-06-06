@@ -360,13 +360,13 @@ function foundOffice(id) {
   if (!info) return;
 
   if (id === 1) {
-    info.innerText = "❌ 😰 Menyimpan bahan kimia di botol minuman? fatal ini kalau tertelan.";
+    info.innerText = "✅ 😰 Menyimpan bahan kimia di botol minuman? fatal ini kalau tertelan.";
   }
   if (id === 2) {
-    info.innerText = "❌ 🤢 Sampah kecil doang??? Nanti kecoa dan tikus bertamu lho!";
+    info.innerText = "✅ 🤢 Sampah kecil doang??? Nanti kecoa dan tikus bertamu lho!";
   }
   if (id === 3) {
-    info.innerText = "❌ 😑 Ada lho 5R! Ringkas..Rapi..Resik..Rawat..Rajin";
+    info.innerText = "✅ 😑 Ada lho 5R! Ringkas..Rapi..Resik..Rawat..Rajin";
   }
 }
 
@@ -378,13 +378,13 @@ function foundWorkshop(id) {
   if (!info) return;
 
   if (id === 1) {
-    info.innerText = "❌ 😖 \"Licin… bau… ini bukan workshop, ini bahaya!\" Tumpahan oli yang dibiarkan bisa bikin kecelakaan dan mencemari tanah.";
+    info.innerText = "✅ 😖 \"Licin… bau… ini bukan workshop, ini bahaya!\" Tumpahan oli yang dibiarkan bisa bikin kecelakaan dan mencemari tanah.";
   }
   if (id === 2) {
-    info.innerText = "❌ 🤢 \"Udah penuh, tetep dibuang ke sini?\" Sampah numpuk bukan cuma kotor—tapi jadi sumber penyakit dan bau menyengat.";
+    info.innerText = "✅ 🤢 \"Udah penuh, tetep dibuang ke sini?\" Sampah numpuk bukan cuma kotor—tapi jadi sumber penyakit dan bau menyengat.";
   }
   if (id === 3) {
-    info.innerText = "❌ 😡 \"Ini limbah berbahaya, bukan sampah biasa!\" Penanganan yang salah bisa mencemari tanah dan air dalam jangka panjang.";
+    info.innerText = "✅ 😡 \"Ini limbah berbahaya, bukan sampah biasa!\" Penanganan yang salah bisa mencemari tanah dan air dalam jangka panjang.";
   }
 }
 
@@ -396,13 +396,13 @@ function foundCamp(id) {
   if (!info) return;
 
   if (id === 1) {
-    info.innerText = "❌ 😷 \"Ohok… ohok… pengap banget!\" Asap dari pembakaran sampah ini nggak cuma ganggu—tapi berbahaya buat kesehatan.";
+    info.innerText = "✅ 😷 \"Ohok… ohok… pengap banget!\" Asap dari pembakaran sampah ini nggak cuma ganggu—tapi berbahaya buat kesehatan.";
   }
   if (id === 2) {
-    info.innerText = "❌ 😵 Satu puntung kecil saja bisa mencemari lingkungan, apalagi sebanyak itu.";
+    info.innerText = "✅ 😵 Satu puntung kecil saja bisa mencemari lingkungan, apalagi sebanyak itu.";
   }
   if (id === 3) {
-    info.innerText = "❌ 🤢 \"Bau… kotor… ini camp atau tempat pembuangan?\" Sampah tidak dikelola = sumber penyakit + pencemaran.";
+    info.innerText = "✅ 🤢 \"Bau… kotor… ini camp atau tempat pembuangan?\" Sampah tidak dikelola = sumber penyakit + pencemaran.";
   }
 }
 
