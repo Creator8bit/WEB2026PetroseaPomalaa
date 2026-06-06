@@ -356,8 +356,9 @@ html, body {
   position: absolute;
   cursor: pointer;
   border-radius: 12px;
-  background: rgba(255, 0, 0, 0.25); /* 🔴 DEBUG ON */
 }
+
+/*background: rgba(255, 0, 0, 0.25); 🔴 DEBUG ON */
 
 .info-text {
   text-align: center;
