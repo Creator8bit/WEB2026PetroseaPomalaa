@@ -320,3 +320,55 @@ html, body {
 .eco-card:hover .eco-overlay p {
   transform: translateY(0);
 }
+
+/* =========================
+   SCENE PAGE
+========================= */
+
+.scene-page {
+  background: white;
+  font-family: Arial, sans-serif;
+}
+
+.scene-title {
+  text-align: center;
+  margin-top: 60px;
+  color: #0f5b43;
+  font-size: 22px;
+}
+
+.scene-container {
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+.scene-container img {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+}
+
+/* area klik */
+.spot {
+  position: absolute;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+/* aktifkan ini sementara kalau mau debug area klik */
+/*
+.spot {
+  background: rgba(255, 0, 0, 0.25);
+}
+*/
+
+.info-text {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+  padding: 12px;
+  color: #333;
+  min-height: 28px;
+}
