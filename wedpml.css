@@ -237,3 +237,64 @@ html, body {
     width: 80%;
   }
 }
+
+/* ECO GAME PAGE */
+
+.eco-page {
+  background: white;
+  font-family: Arial;
+}
+
+/* TITLE */
+.eco-title {
+  text-align: center;
+  margin-top: 30px;
+  color: #0f5b43;
+}
+
+/* CONTAINER */
+.eco-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+
+/* CARD STYLE */
+.eco-card {
+  width: 260px;
+  cursor: pointer;
+  text-align: center;
+
+  border-radius: 16px;
+  overflow: hidden;
+
+  background: white;
+
+  /* ✅ shadow sama kayak button */
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+
+  transition: 0.3s;
+}
+
+/* IMAGE */
+.eco-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+/* TEXT */
+.eco-card p {
+  padding: 12px;
+  font-weight: bold;
+  color: #0f5b43;
+}
+
+/* HOVER EFFECT (sama kayak button homepage) */
+.eco-card:hover {
+  transform: translateY(-8px) scale(1.03);
+
+  box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
