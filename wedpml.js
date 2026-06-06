@@ -334,3 +334,7 @@ async function downloadTwibbon() {
     alert("Gagal membuat twibbon. Cek apakah foto dan asset sudah terbaca.");
   }
 }
+
+function openScene(scene) {
+  window.location.href = "scene-" + scene + ".html";
+}
