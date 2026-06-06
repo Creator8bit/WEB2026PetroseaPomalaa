@@ -1,5 +1,6 @@
+// =====================// NAVIGATION
 // =====================
-// HOMEPAGE NAVIGATIONTwibbon() {// HOMEPAGE NAVIGATION
+function goTwibbon() {
   window.location.href = "twibbon.html";
 }
 
@@ -9,6 +10,13 @@ function goGame() {
 
 function goStory() {
   alert("On Progress~");
+}
+
+// =====================
+// ECO GAME NAVIGATION
+// =====================
+function openScene(scene) {
+  window.location.href = "scene-" + scene + ".html";
 }
 
 // =====================
@@ -107,8 +115,11 @@ function takePhoto() {
 // ICON HELPERS
 // =====================
 function selectIcon(icon) {
+  if (!layer) return;
+
   document.querySelectorAll("#icon-layer img").forEach(i => i.classList.remove("selected"));
   selectedIcon = icon;
+
   if (selectedIcon) {
     selectedIcon.classList.add("selected");
     if (sizeRange) {
@@ -158,6 +169,7 @@ function addIcon(src) {
   });
 }
 
+// unselect icon kalau klik area kosong
 if (layer) {
   layer.addEventListener("click", (e) => {
     if (e.target === layer) {
@@ -230,6 +242,11 @@ function makeDraggable(icon) {
 
       trashBin.classList.remove("active");
     }
+  });
+
+  icon.addEventListener("pointercancel", () => {
+    dragging = false;
+    if (trashBin) trashBin.classList.remove("active");
   });
 }
 
@@ -323,13 +340,6 @@ async function downloadTwibbon() {
 }
 
 // =====================
-// ECO GAME NAVIGATION
-// =====================
-function openScene(scene) {
-  window.location.href = "scene-" + scene + ".html";
-}
-
-// =====================
 // WRONG CLICK
 // =====================
 function wrongClick(event) {
@@ -337,15 +347,9 @@ function wrongClick(event) {
   const workshopInfo = document.getElementById("info-workshop");
   const campInfo = document.getElementById("info-camp");
 
-  if (officeInfo) {
-    officeInfo.innerText = "❌ Bukan di area ini 😏";
-  }
-  if (workshopInfo) {
-    workshopInfo.innerText = "❌ Bukan di area ini 😏";
-  }
-  if (campInfo) {
-    campInfo.innerText = "❌ Bukan di area ini 😏";
-  }
+  if (officeInfo) officeInfo.innerText = "❌ Bukan di area ini 😏";
+  if (workshopInfo) workshopInfo.innerText = "❌ Bukan di area ini 😏";
+  if (campInfo) campInfo.innerText = "❌ Bukan di area ini 😏";
 }
 
 // =====================
@@ -358,11 +362,9 @@ function foundOffice(id) {
   if (id === 1) {
     info.innerText = "❌ Improper Chemical Storage — botol minuman digunakan untuk menyimpan bahan kimia.";
   }
-
   if (id === 2) {
     info.innerText = "❌ Poor Waste Handling — sampah snack tidak dibuang pada tempatnya.";
   }
-
   if (id === 3) {
     info.innerText = "❌ Housekeeping Issue (5R) — meja kerja berantakan dan tidak rapi.";
   }
@@ -378,11 +380,9 @@ function foundWorkshop(id) {
   if (id === 1) {
     info.innerText = "❌ Oil Spill Not Cleaned — workshop ditinggalkan dalam keadaan kotor dengan ceceran oli.";
   }
-
   if (id === 2) {
     info.innerText = "❌ Waste Bin Overflow — tempat sampah penuh dan sampah berjatuhan di sekitarnya.";
   }
-
   if (id === 3) {
     info.innerText = "❌ Improper Oily Waste Handling — limbah terkontaminasi oli tidak dikelola dengan benar.";
   }
@@ -398,13 +398,11 @@ function foundCamp(id) {
   if (id === 1) {
     info.innerText = "❌ Open Burning of Waste — membakar sampah secara terbuka mencemari udara.";
   }
-
   if (id === 2) {
     info.innerText = "❌ Improper Wastewater Disposal — limbah cair dibuang sembarangan dan berpotensi mencemari tanah/air.";
   }
-
   if (id === 3) {
     info.innerText = "❌ Poor Waste Management — sampah berserakan dan tidak dikelola dengan baik.";
   }
 }
-// =====================
+
