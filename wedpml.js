@@ -10,7 +10,7 @@ function goGame() {
 }
 
 function goStory() {
-  alert("Our Story akan rilis tanggal 07/06/2026📖!");
+  alert("On Progress~");
 }
 
 // =====================
