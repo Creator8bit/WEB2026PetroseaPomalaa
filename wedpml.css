@@ -359,13 +359,6 @@ html, body {
   background: rgba(255, 0, 0, 0.25); /* 🔴 DEBUG ON */
 }
 
-/* aktifkan ini sementara kalau mau debug area klik */
-/*
-.spot {
-  background: rgba(255, 0, 0, 0.25);
-}
-*/
-
 .info-text {
   text-align: center;
   font-size: 18px;
