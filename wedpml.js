@@ -338,3 +338,79 @@ async function downloadTwibbon() {
 function openScene(scene) {
   window.location.href = "scene-" + scene + ".html";
 }
+
+// =====================
+// ECO GAME NAVIGATION
+// =====================
+function openScene(scene) {
+  window.location.href = "scene-" + scene + ".html";
+}
+
+// =====================
+// WRONG CLICK
+// =====================
+function wrongClick(event, infoId) {
+  const info = document.getElementById(infoId);
+  if (!info) return;
+  info.innerText = "❌ Bukan di area ini 😏";
+}
+
+// =====================
+// OFFICE FINDINGS
+// =====================
+function foundOffice(id) {
+  const info = document.getElementById("info");
+  if (!info) return;
+
+  if (id === 1) {
+    info.innerText = "❌ Improper Chemical Storage — botol minuman digunakan untuk menyimpan bahan kimia.";
+  }
+
+  if (id === 2) {
+    info.innerText = "❌ Poor Waste Handling — sampah snack tidak dibuang pada tempatnya.";
+  }
+
+  if (id === 3) {
+    info.innerText = "❌ Housekeeping Issue (5R) — meja kerja berantakan dan tidak rapi.";
+  }
+}
+
+// =====================
+// WORKSHOP FINDINGS
+// =====================
+function foundWorkshop(id) {
+  const info = document.getElementById("info-workshop");
+  if (!info) return;
+
+  if (id === 1) {
+    info.innerText = "❌ Oil Spill Not Cleaned — workshop ditinggalkan dalam keadaan kotor dengan ceceran oli.";
+  }
+
+  if (id === 2) {
+    info.innerText = "❌ Waste Bin Overflow — tempat sampah penuh dan sampah berjatuhan di sekitarnya.";
+  }
+
+  if (id === 3) {
+    info.innerText = "❌ Improper Oily Waste Handling — limbah terkontaminasi oli tidak dikelola dengan benar.";
+  }
+}
+
+// =====================
+// CAMP FINDINGS
+// =====================
+function foundCamp(id) {
+  const info = document.getElementById("info-camp");
+  if (!info) return;
+
+  if (id === 1) {
+    info.innerText = "❌ Open Burning of Waste — membakar sampah secara terbuka mencemari udara.";
+  }
+
+  if (id === 2) {
+    info.innerText = "❌ Improper Wastewater Disposal — limbah cair dibuang sembarangan dan berpotensi mencemari tanah/air.";
+  }
+
+  if (id === 3) {
+    info.innerText = "❌ Poor Waste Management — sampah berserakan dan tidak dikelola dengan baik.";
+  }
+}
