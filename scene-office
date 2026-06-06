@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Office Scene</title>
+  <link rel="stylesheet" href="wedpml.css">
+</head>
+
+<body class="scene-page">
+
+<h2 class="scene-title">🏢 Office - Find the Mistake</h2>
+
+<div class="scene-container">
+
+  <!-- ✅ GAMBAR -->
+  <img src="Assets/scenes/Office.png" class="scene-img">
+
+  <!-- ✅ AREA KLIK -->
+
+  <!-- BOTOL -->
+  <div class="spot" style="top:70%; left:50%;" onclick="found(1)"></div>
+
+  <!-- SAMPAH -->
+  <div class="spot" style="top:40%; left:65%;" onclick="found(2)"></div>
+
+  <!-- 5R -->
+  <div class="spot" style="top:30%; left:45%;" onclick="found(3)"></div>
+
+</div>
+
+<p id="info" class="info-text"></p>
+
+<script src="wedpml.js"></script>
+
+</body>
+</html>
