@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Workshop Scene</title>
+  <link rel="stylesheet" href="wedpml.css">
+</head>
+
+<body class="scene-page">
+
+<h2 class="scene-title">🛠 Workshop - Find the Mistake</h2>
+
+<div class="scene-container">
+
+  <img src="Assets/scenes/Workshop.jpeg" class="scene-img">
+
+  <!-- OIL SPILL -->
+  <div class="spot" style="top:60%; left:50%;" onclick="foundWorkshop(1)"></div>
+
+  <!-- SAMPAH -->
+  <div class="spot" style="top:40%; left:25%;" onclick="foundWorkshop(2)"></div>
+
+  <!-- LIMBAH OLI -->
+  <div class="spot" style="top:70%; left:70%;" onclick="foundWorkshop(3)"></div>
+
+</div>
+
+<p id="info-workshop" class="info-text"></p>
+
+<script src="wedpml.js"></script>
+
+</body>
+</html>
