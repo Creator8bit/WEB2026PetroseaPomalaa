@@ -6,7 +6,7 @@ function goTwibbon() {
 }
 
 function goGame() {
-  alert("Eco Game akan rilis tanggal 07/06/2026 🌱");
+  window.location.href = "ecogame.html";
 }
 
 function goStory() {
