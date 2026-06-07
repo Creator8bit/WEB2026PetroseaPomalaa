@@ -1,33 +1,5 @@
 <!DOCTYPE html>
-<html lang="en SIDE --><html lang="en">
-    <div class="puzzle-tray-wrap">
-      <h3>Puzzle Pieces</h3>
-      <div id="puzzleTray" class="puzzle-tray"></div>
-    </div>
-
-    <!-- RIGHT SIDE -->
-    <div class="puzzle-board-wrap">
-      <div id="puzzleBoard" class="puzzle-board"></div>
-
-      <div class="puzzle-actions">
-        <button onclick="shufflePuzzlePieces()">🔀 Shuffle</button>
-        <button onclick="resetPuzzleBoard()">♻️ Reset</button>
-      </div>
-
-      <p id="puzzleStatus" class="puzzle-status">
-        Progress: 0 / 15
-      </p>
-    </div>
-
-  </div>
-
-  <div style="text-align:center; margin-top:30px;">
-    <button onclick="goGame()" class="btn">⬅ Back to Eco Game</button>
-  </div>
-
-  <script src="wedpml.js"></script>
-</body>
-</html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Enviro Hero Puzzle</title>
@@ -42,3 +14,42 @@
   </p>
 
   <div class="puzzle-layout">
+
+    <!-- LEFT SIDE -->
+    <div class="puzzle-tray-wrap">
+      <h3>Puzzle Pieces</h3>
+      <div id="puzzleTray" class="puzzle-tray"></div>
+
+      <div class="puzzle-actions">
+        <button onclick="shufflePuzzlePieces()">🔀 Shuffle</button>
+        <button onclick="resetPuzzleBoard()">♻️ Reset</button>
+      </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="puzzle-board-wrap">
+      <h3>Puzzle Board</h3>
+
+      <div id="puzzleBoard" class="puzzle-board">
+        <!-- SLOT AREA (target snap) -->
+        <div id="puzzleSlots" class="puzzle-slots"></div>
+
+        <!-- PIECES YANG SUDAH TARUH -->
+        <div id="puzzlePlacedLayer" class="puzzle-placed-layer"></div>
+      </div>
+
+      <p id="puzzleStatus" class="puzzle-status">
+        Progress: 0 / 15
+      </p>
+    </div>
+
+  </div>
+
+  <!-- BACK BUTTON -->
+  <div style="text-align:center; margin-top:30px;">
+    <button onclick="goGame()" class="btn">⬅ Back to Eco Game</button>
+  </div>
+
+  <script src="wedpml.js"></script>
+</body>
+</html>
