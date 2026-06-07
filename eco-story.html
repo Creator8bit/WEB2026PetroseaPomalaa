@@ -8,68 +8,100 @@
 
 <body class="story-page">
 
-<h2 class="story-title">🌱 Eco Story - WED 2026</h2>
+  <h2 class="story-title">🌱 Eco Story - WED 2026</h2>
 
-<div class="story-container">
+  <div class="story-container">
 
-  <!-- ✅ SLIDE 1 (KIRI FOTO) -->
-  <div class="slide active">
-    <img src="Assets/slide/slide1-pm.png" class="story-img">
-    <div class="caption">
-      <h3>Project Manager</h3>
-      <p>"Aktivitas kita mengganggu lingkungan, kita tidak boleh merusaknya lebih lanjut. Kepedulian akan lingkungan dimulai dari kesadaran masing-masing. Jaga area sekitar kita, mulai dari aksi-aksi sederhana."</p>
+    <!-- SLIDE 1 -->
+    <div class="slide active">
+      <img src="Assets/slide/slide1-pm.png" class="story-img" alt="Project Manager">
+      <div class="caption">
+        <h3>Project Manager</h3>
+        <p>
+          “Ketika kita mengganggu lingkungan, kita juga harus melakukan pengendalian dan menjaganya
+          agar tidak rusak, serta berupaya memulihkan fungsi lingkungan seperti semula.”
+        </p>
+      </div>
     </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide reverse">
+      <img src="Assets/slide/slide2-hse.png" class="story-img" alt="HSE Manager">
+      <div class="caption">
+        <h3>HSE Commitment</h3>
+        <p>
+          “Masalah lingkungan tidak muncul begitu saja. Semua berawal dari kebiasaan yang kita biarkan.
+          Karena itu, tindakan kecil yang konsisten akan menghasilkan perubahan besar.”
+        </p>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide center">
+      <img src="Assets/slide/slide3-senam.jpg" class="story-img" alt="Morning Exercise">
+      <div class="caption">
+        <h3>Morning Exercise</h3>
+        <p>
+          Kegiatan hari itu dimulai dengan senam bersama.
+          Tubuh yang sehat membantu kita tetap semangat, fokus, dan siap menjalankan aksi lingkungan dengan energi positif.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide center">
+      <img src="Assets/slide/slide4-komitmen.jpeg" class="story-img" alt="World Environment Day 2026 Commitment">
+      <div class="caption">
+        <h3>Inspired by Nature. For Climate. For Our Future</h3>
+        <p>
+          Tema World Environment Day 2026 mengingatkan bahwa aksi iklim dimulai dari hal yang paling dekat dengan kita.
+          <br><br>
+          <strong>#SaatnyaBeraksiUntukIklim</strong> <strong>#NowforClimate</strong>
+        </p>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 - VIDEO -->
+    <div class="slide center video-slide">
+      <div class="video-wrapper">
+        <iframe
+          src="https://www.youtube.com/embed/lJxMnEJ0XOA"
+          title="Eco Story Video"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <div class="caption">
+        <h3>Our Movement in Action</h3>
+        <p>
+          Setiap dokumentasi adalah pengingat bahwa keberlanjutan bukan hanya wacana,
+          tetapi aksi nyata yang dilakukan bersama.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 - CLOSING -->
+    <div class="slide closing">
+      <img src="Assets/slide/slide5-closing.png" class="story-img" alt="Closing Collage">
+      <div class="caption">
+        <h3>AKU, KAMU, KITA: PAHLAWAN LINGKUNGAN</h3>
+        <p>
+          Prinsip penting dari <strong>keberlanjutan</strong> adalah
+          <strong>perubahan besar</strong> dimulai dari
+          <strong>aksi-aksi kecil.</strong>
+        </p>
+      </div>
+    </div>
+
   </div>
 
-  <!-- ✅ SLIDE 2 (KANAN FOTO) -->
-  <div class="slide reverse">
-    <img src="Assets/slide/slide2-hse.png" class="story-img">
-    <div class="caption">
-      <h3>HSE Manager</h3>
-      <p>"Ketika kita mengganggu lingkungan, kita juga harus melakukan kontrol dan menjaga supaya lingkungan tersebut tidak rusak dan dapat mengembalikan fungsi lingkungan awalnya."</p>
-    </div>
+  <!-- NAVIGATION -->
+  <div class="nav-buttons">
+    <button id="prevBtn" onclick="prevSlide()">⬅</button>
+    <button id="nextBtn" onclick="nextSlide()">➡</button>
   </div>
 
-  <!-- ✅ SLIDE 3 (CENTER SENAM) -->
-  <div class="slide center">
-    <img src="Assets/slide/slide3-senam.jpg" class="story-img">
-    <div class="caption">
-      <h3>Morning Exercise</h3>
-      <p>"Mulai dari hal sederhana — jaga tubuh, jaga semangat."</p>
-    </div>
-  </div>
-
-  <!-- ✅ SLIDE 4 (CENTER KOMITMEN) -->
-  <div class="slide center">
-    <img src="Assets/slide/slide4-komitmen.jpeg" class="story-img">
-    <div class="caption">
-      <h3>Inspired by Nature. For Climate. For Our Future</h3>
-      <p>#SaatnyaBeraksiUntukIklim #NowforClimate</p>
-    </div>
-  </div>
-
-  <!-- ✅ SLIDE 5 (CLOSING) -->
-  <div class="slide closing">
-    <img src="Assets/slide/slide5-closing.png" class="story-img">
-    <div class="caption">
-      <h3>AKU, KAMU, KITA: PAHLAWAN LINGKUNGAN</h3>
-      <p>
-        Prinsip penting dari <b>keberlanjutan</b> adalah
-        <b>perubahan besar</b> dimulai dari
-        <b>aksi-aksi kecil.</b>
-      </p>
-    </div>
-  </div>
-
-</div>
-
-<!-- ✅ NAV -->
-<div class="nav-buttons">
-  <button onclick="prevSlide()">⬅</button>
-  <button onclick="nextSlide()">➡</button>
-</div>
-
-<script src="wedpml.js"></script>
-
+  <script src="wedpml.js"></script>
 </body>
 </html>
