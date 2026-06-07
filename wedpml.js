@@ -449,3 +449,256 @@ function prevSlide() {
 if (slides.length) {
   showSlide(current);
 }
+
+// =====================
+// PUZZLEuzzleStatus");// PUZZLE - ENVIRO HERO
+
+// ukuran canvas asli dari Canva export
+const PUZZLE_CANVAS_W = 5361;
+const PUZZLE_CANVAS_H = 2835;
+
+// daftar potongan puzzle
+const puzzlePieces = [
+  "Assets/puzzle/p1.png",
+  "Assets/puzzle/p2.png",
+  "Assets/puzzle/p3.png",
+  "Assets/puzzle/p4.png",
+  "Assets/puzzle/p5.png",
+  "Assets/puzzle/p6.png",
+  "Assets/puzzle/p7.png",
+  "Assets/puzzle/p8.png",
+  "Assets/puzzle/p9.png",
+  "Assets/puzzle/p10.png",
+  "Assets/puzzle/p11.png",
+  "Assets/puzzle/p12.png",
+  "Assets/puzzle/p13.png",
+  "Assets/puzzle/p14.png",
+  "Assets/puzzle/p15.png"
+];
+
+let pieceMetaMap = {};
+let currentPuzzleOrder = [];
+let placedCount = 0;
+
+// =====================
+// SHUFFLE FUNCTION
+// =====================
+function shuffleArray(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+// =====================
+// ANALYZE IMAGE (AUTO DETECT SHAPE)
+// =====================
+function analyzePiece(src) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = src;
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+      let minX = canvas.width, minY = canvas.height;
+      let maxX = 0, maxY = 0;
+
+      for (let y = 0; y < canvas.height; y++) {
+        for (let x = 0; x < canvas.width; x++) {
+          const alpha = data[(y * canvas.width + x) * 4 + 3];
+          if (alpha > 0) {
+            minX = Math.min(minX, x);
+            minY = Math.min(minY, y);
+            maxX = Math.max(maxX, x);
+            maxY = Math.max(maxY, y);
+          }
+        }
+      }
+
+      const trimW = maxX - minX + 1;
+      const trimH = maxY - minY + 1;
+
+      const trimCanvas = document.createElement("canvas");
+      trimCanvas.width = trimW;
+      trimCanvas.height = trimH;
+      const trimCtx = trimCanvas.getContext("2d");
+
+      trimCtx.drawImage(canvas, minX, minY, trimW, trimH, 0, 0, trimW, trimH);
+
+      resolve({
+        trimmedSrc: trimCanvas.toDataURL(),
+        minX,
+        minY,
+        trimW,
+        trimH
+      });
+    };
+  });
+}
+
+// =====================
+// LOAD ALL PIECES META
+// =====================
+async function preparePuzzle() {
+  for (const src of puzzlePieces) {
+    pieceMetaMap[src] = await analyzePiece(src);
+  }
+  currentPuzzleOrder = shuffleArray(puzzlePieces);
+  renderPuzzle();
+}
+
+// =====================
+// RENDER GAME
+// =====================
+function renderPuzzle() {
+  if (!puzzleTray || !puzzleBoard) return;
+
+  puzzleTray.innerHTML = "";
+  puzzleBoard.querySelectorAll(".board-piece").forEach(e => e.remove());
+
+  const boardRect = puzzleBoard.getBoundingClientRect();
+  const scaleX = boardRect.width / PUZZLE_CANVAS_W;
+  const scaleY = boardRect.height / PUZZLE_CANVAS_H;
+
+  currentPuzzleOrder.forEach((src) => {
+    const meta = pieceMetaMap[src];
+
+    // === tray ===
+    const card = document.createElement("div");
+    card.className = "puzzle-piece-card";
+
+    const thumb = document.createElement("img");
+    thumb.src = meta.trimmedSrc;
+    thumb.className = "puzzle-piece-thumb";
+
+    card.appendChild(thumb);
+    puzzleTray.appendChild(card);
+
+    // === board ===
+    const piece = document.createElement("img");
+    piece.src = meta.trimmedSrc;
+    piece.className = "board-piece";
+
+    const targetX = meta.minX * scaleX;
+    const targetY = meta.minY * scaleY;
+
+    piece.dataset.x = targetX;
+    piece.dataset.y = targetY;
+
+    piece.style.width = meta.trimW * scaleX + "px";
+    piece.style.height = meta.trimH * scaleY + "px";
+
+    // random position
+    piece.style.left = Math.random() * 200 + "px";
+    piece.style.top = Math.random() * 200 + "px";
+
+    puzzleBoard.appendChild(piece);
+
+    makeDraggablePuzzle(piece, card);
+  });
+
+  placedCount = 0;
+  updateStatus();
+}
+
+// =====================
+// DRAG + SNAP
+// =====================
+function makeDraggablePuzzle(piece, card) {
+  let dragging = false;
+  let offsetX, offsetY;
+
+  piece.addEventListener("pointerdown", (e) => {
+    if (piece.classList.contains("placed")) return;
+
+    dragging = true;
+    const rect = piece.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+
+    piece.setPointerCapture(e.pointerId);
+    piece.style.zIndex = 50;
+  });
+
+  piece.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+
+    const boardRect = puzzleBoard.getBoundingClientRect();
+
+    const x = e.clientX - boardRect.left - offsetX;
+    const y = e.clientY - boardRect.top - offsetY;
+
+    piece.style.left = x + "px";
+    piece.style.top = y + "px";
+  });
+
+  piece.addEventListener("pointerup", () => {
+    if (!dragging) return;
+    dragging = false;
+
+    const x = parseFloat(piece.style.left);
+    const y = parseFloat(piece.style.top);
+
+    const targetX = parseFloat(piece.dataset.x);
+    const targetY = parseFloat(piece.dataset.y);
+
+    const distance = Math.hypot(x - targetX, y - targetY);
+
+    if (distance < 80) {
+      piece.style.left = targetX + "px";
+      piece.style.top = targetY + "px";
+
+      piece.classList.add("placed");
+      card.classList.add("placed");
+
+      placedCount++;
+      updateStatus();
+    }
+  });
+}
+
+// =====================
+// STATUS
+// =====================
+function updateStatus() {
+  if (!puzzleStatus) return;
+
+  puzzleStatus.innerText = `Progress: ${placedCount} / ${puzzlePieces.length}`;
+
+  if (placedCount === puzzlePieces.length) {
+    puzzleStatus.innerText = "✅ Enviro Hero Complete!";
+  }
+}
+
+// =====================
+// BUTTONS
+// =====================
+function shufflePuzzlePieces() {
+  currentPuzzleOrder = shuffleArray(puzzlePieces);
+  renderPuzzle();
+}
+
+function resetPuzzleBoard() {
+  renderPuzzle();
+}
+
+// =====================
+// INIT
+// =====================
+if (puzzleTray && puzzleBoard) {
+  preparePuzzle();
+}
+// =====================
+
+// elemen HTML (game hanya jalan kalau ini ada)
+const puzzleTray = document.getElementById("puzzleTray");
+const puzzleBoard = document.getElementById("puzzleBoard");
