@@ -455,105 +455,513 @@ function foundCamp(id) {
 }
 
 // =====================
-// PUZZLE FINAL SIMPLE
+// PUZZLE SMART SNAP VERSION
 // =====================
 
 const puzzleTray = document.getElementById("puzzleTray");
 const puzzleBoard = document.getElementById("puzzleBoard");
+const puzzleSlots = document.getElementById("puzzleSlots");
+const puzzlePlacedLayer = document.getElementById("puzzlePlacedLayer");
 const puzzleStatus = document.getElementById("puzzleStatus");
 
-const puzzlePieces = Array.from({ length: 15 }, (_, i) =>
-  `Assets/puzzle/p${i + 1}.png`
-);
+const puzzleSources = Array.from({ length: 15 }, (_, i) => ({
+  id: i + 1,
+  src: `Assets/puzzle/p${i + 1}.png`
+}));
 
-let placed = 0;
+let puzzleData = [];
+let draggedPieceId = null;
 
-// INIT
-function initPuzzle() {
-  if (!puzzleTray || !puzzleBoard) return;
-  drawPuzzle();
+// ---------- HELPERS ----------
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
 }
 
-// DRAW
-function drawPuzzle() {
-  puzzleTray.innerHTML = "";
-  puzzleBoard.innerHTML = "";
-  placed = 0;
-  update();
+function shuffleArray(arr) {
+  const copy = [...arr];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
 
-  puzzlePieces.forEach((src, index) => {
-
-    const card = document.createElement("div");
-    card.className = "puzzle-piece-card";
-
-    const img = document.createElement("img");
+function loadImageFile(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
     img.src = src;
-    img.className = "puzzle-piece-thumb";
-
-    card.appendChild(img);
-    puzzleTray.appendChild(card);
-
-    card.addEventListener("pointerdown", (e) => {
-      startDrag(e, src, index);
-    });
   });
 }
 
-// DRAG SYSTEM (MOBILE FIXED)
-function startDrag(e, src, index) {
-  let ghost = document.createElement("img");
-  ghost.src = src;
+/**
+ * Cari area non-transparent dari PNG full-frame
+ */
+function getTrimBounds(img) {
+  const canvas = document.createElement("canvas");
+  canvas.width = img.naturalWidth || img.width;
+  canvas.height = img.naturalHeight || img.height;
+
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  ctx.drawImage(img, 0, 0);
+
+  const { data, width, height } = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+  let minX = width;
+  let minY = height;
+  let maxX = -1;
+  let maxY = -1;
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const alpha = data[(y * width + x) * 4 + 3];
+      if (alpha > 8) {
+        if (x < minX) minX = x;
+        if (y < minY) minY = y;
+        if (x > maxX) maxX = x;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+
+  // kalau somehow kosong total
+  if (maxX === -1 || maxY === -1) {
+    return {
+      x: 0,
+      y: 0,
+      w: width,
+      h: height
+    };
+  }
+
+  return {
+    x: minX,
+    y: minY,
+    w: maxX - minX + 1,
+    h: maxY - minY + 1
+  };
+}
+
+/**
+ * Crop piece jadi thumbnail/actual visible piece
+ */
+function createTrimmedDataURL(img, bounds) {
+  const canvas = document.createElement("canvas");
+  canvas.width = bounds.w;
+  canvas.height = bounds.h;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(
+    img,
+    bounds.x, bounds.y, bounds.w, bounds.h,
+    0, 0, bounds.w, bounds.h
+  );
+
+  return canvas.toDataURL("image/png");
+}
+
+function boardRect() {
+  return puzzleBoard.getBoundingClientRect();
+}
+
+function getPieceById(id) {
+  return puzzleData.find(p => p.id === id);
+}
+
+function getBoardMetrics(piece) {
+  const rect = boardRect();
+
+  const leftPx = (piece.bounds.x / piece.fullW) * rect.width;
+  const topPx = (piece.bounds.y / piece.fullH) * rect.height;
+  const widthPx = (piece.bounds.w / piece.fullW) * rect.width;
+  const heightPx = (piece.bounds.h / piece.fullH) * rect.height;
+
+  return { leftPx, topPx, widthPx, heightPx, rect };
+}
+
+function getCurrentPieceBoardPos(piece) {
+  const rect = boardRect();
+  const metrics = getBoardMetrics(piece);
+
+  if (piece.snapped) {
+    return {
+      left: metrics.leftPx,
+      top: metrics.topPx,
+      width: metrics.widthPx,
+      height: metrics.heightPx
+    };
+  }
+
+  if (piece.placed) {
+    return {
+      left: piece.freeX * rect.width,
+      top: piece.freeY * rect.height,
+      width: metrics.widthPx,
+      height: metrics.heightPx
+    };
+  }
+
+  return null;
+}
+
+function countSnappedPieces() {
+  return puzzleData.filter(p => p.snapped).length;
+}
+
+function updatePuzzleStatus() {
+  if (!puzzleStatus) return;
+  const snapped = countSnappedPieces();
+  puzzleStatus.innerText = `Progress: ${snapped} / ${puzzleData.length}`;
+
+  if (snapped === puzzleData.length) {
+    puzzleStatus.innerText = `🎉 Puzzle selesai! ${snapped} / ${puzzleData.length}`;
+  }
+}
+
+// ---------- RENDER ----------
+function renderSlots() {
+  if (!puzzleSlots) return;
+  puzzleSlots.innerHTML = "";
+
+  puzzleData.forEach(piece => {
+    const slot = document.createElement("div");
+    slot.className = "puzzle-slot";
+    slot.dataset.pieceId = piece.id;
+    slot.dataset.label = `P${piece.id}`;
+
+    const left = (piece.bounds.x / piece.fullW) * 100;
+    const top = (piece.bounds.y / piece.fullH) * 100;
+    const width = (piece.bounds.w / piece.fullW) * 100;
+    const height = (piece.bounds.h / piece.fullH) * 100;
+
+    slot.style.left = left + "%";
+    slot.style.top = top + "%";
+    slot.style.width = width + "%";
+    slot.style.height = height + "%";
+
+    puzzleSlots.appendChild(slot);
+  });
+}
+
+function renderTray() {
+  if (!puzzleTray) return;
+  puzzleTray.innerHTML = "";
+
+  puzzleData
+    .filter(piece => !piece.placed)
+    .forEach(piece => {
+      const card = document.createElement("div");
+      card.className = "puzzle-piece-card";
+      card.dataset.pieceId = piece.id;
+
+      const img = document.createElement("img");
+      img.src = piece.trimSrc;
+      img.className = "puzzle-piece-thumb";
+      img.alt = `Puzzle piece ${piece.id}`;
+
+      card.appendChild(img);
+      puzzleTray.appendChild(card);
+
+      card.addEventListener("pointerdown", (e) => {
+        startDragPiece(e, piece.id, "tray", card);
+      });
+    });
+}
+
+function renderBoardPieces() {
+  if (!puzzlePlacedLayer) return;
+  puzzlePlacedLayer.innerHTML = "";
+
+  puzzleData
+    .filter(piece => piece.placed)
+    .forEach(piece => {
+      const el = document.createElement("div");
+      el.className = "board-piece" + (piece.snapped ? " snapped" : "");
+      el.dataset.pieceId = piece.id;
+
+      const img = document.createElement("img");
+      img.src = piece.trimSrc;
+      img.alt = `Puzzle piece ${piece.id}`;
+      el.appendChild(img);
+
+      const metrics = getBoardMetrics(piece);
+      const widthPct = (piece.bounds.w / piece.fullW) * 100;
+      const heightPct = (piece.bounds.h / piece.fullH) * 100;
+
+      if (piece.snapped) {
+        el.style.left = (piece.bounds.x / piece.fullW) * 100 + "%";
+        el.style.top = (piece.bounds.y / piece.fullH) * 100 + "%";
+      } else {
+        el.style.left = (piece.freeX * 100) + "%";
+        el.style.top = (piece.freeY * 100) + "%";
+      }
+
+      el.style.width = widthPct + "%";
+      el.style.height = heightPct + "%";
+
+      el.addEventListener("pointerdown", (e) => {
+        startDragPiece(e, piece.id, "board", el);
+      });
+
+      puzzlePlacedLayer.appendChild(el);
+    });
+}
+
+function renderPuzzle() {
+  renderSlots();
+  renderTray();
+  renderBoardPieces();
+  updatePuzzleStatus();
+}
+
+// ---------- SNAP LOGIC ----------
+function highlightSlot(pieceId, on) {
+  const slot = puzzleSlots?.querySelector(`.puzzle-slot[data-piece-id="${pieceId}"]`);
+  if (!slot) return;
+  slot.classList.toggle("highlight", on);
+}
+
+function isNearCorrectSlot(pieceId, clientX, clientY) {
+  const piece = getPieceById(pieceId);
+  if (!piece || !puzzleBoard) return { snap: false };
+
+  const rect = boardRect();
+  const m = getBoardMetrics(piece);
+
+  const slotCenterX = rect.left + m.leftPx + (m.widthPx / 2);
+  const slotCenterY = rect.top + m.topPx + (m.heightPx / 2);
+
+  const dx = clientX - slotCenterX;
+  const dy = clientY - slotCenterY;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+
+  const threshold = Math.max(40, Math.min(120, Math.max(m.widthPx, m.heightPx) * 0.6));
+
+  return {
+    snap: distance <= threshold,
+    distance,
+    threshold
+  };
+}
+
+// ---------- DRAG ----------
+function createGhost(piece, widthPx, heightPx) {
+  const ghost = document.createElement("div");
   ghost.className = "puzzle-drag-ghost";
-  ghost.style.width = "120px";
+  ghost.style.width = widthPx + "px";
+  ghost.style.height = heightPx + "px";
+
+  const img = document.createElement("img");
+  img.src = piece.trimSrc;
+  ghost.appendChild(img);
 
   document.body.appendChild(ghost);
+  return ghost;
+}
 
-  move(e);
+function startDragPiece(e, pieceId, sourceType, sourceEl) {
+  e.preventDefault();
 
-  function move(ev) {
-    ghost.style.left = ev.clientX + "px";
-    ghost.style.top = ev.clientY + "px";
+  const piece = getPieceById(pieceId);
+  if (!piece) return;
+
+  draggedPieceId = pieceId;
+
+  const rectBoard = boardRect();
+  const metrics = getBoardMetrics(piece);
+
+  let startVisual;
+
+  if (sourceType === "board" && piece.placed) {
+    startVisual = getCurrentPieceBoardPos(piece);
+  } else {
+    const sourceRect = sourceEl.getBoundingClientRect();
+    const ratio = metrics.heightPx / metrics.widthPx || 1;
+
+    // size ghost menyesuaikan kartu/tray tapi proporsional piece asli
+    let gWidth = Math.min(140, sourceRect.width * 0.95);
+    let gHeight = gWidth * ratio;
+
+    if (gHeight > 110) {
+      gHeight = 110;
+      gWidth = gHeight / ratio;
+    }
+
+    startVisual = {
+      left: e.clientX - (gWidth / 2),
+      top: e.clientY - (gHeight / 2),
+      width: gWidth,
+      height: gHeight
+    };
   }
 
-  function up(ev) {
+  const offsetX = e.clientX - startVisual.left;
+  const offsetY = e.clientY - startVisual.top;
+
+  const ghost = createGhost(piece, startVisual.width, startVisual.height);
+  moveGhost(e.clientX, e.clientY);
+
+  function moveGhost(clientX, clientY) {
+    ghost.style.left = clientX + "px";
+    ghost.style.top = clientY + "px";
+  }
+
+  function pointerMove(ev) {
+    moveGhost(ev.clientX, ev.clientY);
+
+    const overBoard =
+      ev.clientX >= rectBoard.left &&
+      ev.clientX <= rectBoard.right &&
+      ev.clientY >= rectBoard.top &&
+      ev.clientY <= rectBoard.bottom;
+
+    if (overBoard) {
+      const near = isNearCorrectSlot(pieceId, ev.clientX, ev.clientY);
+      highlightSlot(pieceId, near.snap);
+    } else {
+      highlightSlot(pieceId, false);
+    }
+  }
+
+  function pointerUp(ev) {
+    document.removeEventListener("pointermove", pointerMove);
+    document.removeEventListener("pointerup", pointerUp);
     ghost.remove();
 
-    const piece = document.createElement("img");
-    piece.src = src;
-    piece.className = "board-piece";
+    const pieceData = getPieceById(pieceId);
+    if (!pieceData) return;
 
-    // layout grid sederhana
-    piece.style.left = (index % 5) * 110 + "px";
-    piece.style.top = Math.floor(index / 5) * 90 + "px";
+    const overBoard =
+      ev.clientX >= rectBoard.left &&
+      ev.clientX <= rectBoard.right &&
+      ev.clientY >= rectBoard.top &&
+      ev.clientY <= rectBoard.bottom;
 
-    puzzleBoard.appendChild(piece);
+    const near = isNearCorrectSlot(pieceId, ev.clientX, ev.clientY);
+    highlightSlot(pieceId, false);
 
-    placed++;
-    update();
+    if (overBoard) {
+      const pieceBoardMetrics = getBoardMetrics(pieceData);
 
-    document.removeEventListener("pointermove", move);
-    document.removeEventListener("pointerup", up);
+      if (near.snap) {
+        pieceData.placed = true;
+        pieceData.snapped = true;
+
+        // simpan posisi free juga biar aman kalau nanti dilepas lagi
+        pieceData.freeX = pieceData.bounds.x / pieceData.fullW;
+        pieceData.freeY = pieceData.bounds.y / pieceData.fullH;
+      } else {
+        // drop bebas di board (reposition)
+        const freeLeft = clamp(
+          (ev.clientX - rectBoard.left - pieceBoardMetrics.widthPx / 2) / rectBoard.width,
+          0,
+          1 - (pieceBoardMetrics.widthPx / rectBoard.width)
+        );
+
+        const freeTop = clamp(
+          (ev.clientY - rectBoard.top - pieceBoardMetrics.heightPx / 2) / rectBoard.height,
+          0,
+          1 - (pieceBoardMetrics.heightPx / rectBoard.height)
+        );
+
+        pieceData.placed = true;
+        pieceData.snapped = false;
+        pieceData.freeX = freeLeft;
+        pieceData.freeY = freeTop;
+      }
+    } else {
+      // kalau dilepas di luar board:
+      // - kalau asalnya dari tray => balik tray
+      // - kalau asalnya dari board => tetap ke posisi sebelumnya
+      if (sourceType === "tray") {
+        pieceData.placed = false;
+        pieceData.snapped = false;
+      }
+    }
+
+    draggedPieceId = null;
+    renderPuzzle();
   }
 
-  document.addEventListener("pointermove", move);
-  document.addEventListener("pointerup", up);
+  document.addEventListener("pointermove", pointerMove);
+  document.addEventListener("pointerup", pointerUp);
 }
 
-// STATUS
-function update() {
-  if (!puzzleStatus) return;
-  puzzleStatus.innerText = `Progress: ${placed} / ${puzzlePieces.length}`;
+// ---------- INIT ----------
+async function preparePuzzleData() {
+  const loaded = await Promise.all(
+    puzzleSources.map(async (item) => {
+      const img = await loadImageFile(item.src);
+      const bounds = getTrimBounds(img);
+      const trimSrc = createTrimmedDataURL(img, bounds);
+
+      return {
+        id: item.id,
+        src: item.src,
+        trimSrc,
+        fullW: img.naturalWidth || img.width,
+        fullH: img.naturalHeight || img.height,
+        bounds, // posisi asli piece dalam full frame
+        placed: false,
+        snapped: false,
+        freeX: 0,
+        freeY: 0
+      };
+    })
+  );
+
+  puzzleData = shuffleArray(loaded);
 }
 
-// BUTTONS
+async function initPuzzle() {
+  if (!puzzleTray || !puzzleBoard || !puzzleSlots || !puzzlePlacedLayer) return;
+
+  if (puzzleStatus) {
+    puzzleStatus.innerText = "Loading puzzle...";
+  }
+
+  try {
+    await preparePuzzleData();
+    renderPuzzle();
+  } catch (err) {
+    console.error("Puzzle init error:", err);
+    if (puzzleStatus) {
+      puzzleStatus.innerText = "Gagal load puzzle. Cek path Assets/puzzle/p1.png - p15.png";
+    }
+  }
+}
+
 function shufflePuzzlePieces() {
-  puzzlePieces.sort(() => Math.random() - 0.5);
-  drawPuzzle();
+  puzzleData = shuffleArray(
+    puzzleData.map(piece => ({
+      ...piece,
+      placed: false,
+      snapped: false,
+      freeX: 0,
+      freeY: 0
+    }))
+  );
+  renderPuzzle();
 }
 
 function resetPuzzleBoard() {
-  drawPuzzle();
+  puzzleData = puzzleData.map(piece => ({
+    ...piece,
+    placed: false,
+    snapped: false,
+    freeX: 0,
+    freeY: 0
+  }));
+  renderPuzzle();
 }
+
+// re-render saat resize supaya posisi tetap presisi
+window.addEventListener("resize", () => {
+  if (puzzleBoard && puzzleData.length) {
+    renderPuzzle();
+  }
+});
 
 // INIT CALL
 if (puzzleTray && puzzleBoard) {
