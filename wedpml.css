@@ -376,23 +376,22 @@ html, body {
 .story-page {
   background: #0f5b43;
   color: white;
-  font-family: Arial, sans-serif;
+  font-family: Arial;
 }
 
 .story-title {
   text-align: center;
-  margin: 30px 0;
+  margin: 20px 0;
 }
 
 /* CONTAINER */
 .story-container {
-  position: relative;
   width: 90%;
   max-width: 1000px;
   margin: auto;
 }
 
-/* SLIDE BASIC */
+/* SLIDES */
 .slide {
   display: none;
   align-items: center;
@@ -408,7 +407,6 @@ html, body {
 .story-img {
   width: 45%;
   border-radius: 16px;
-  object-fit: cover;
 }
 
 /* TEXT */
@@ -420,20 +418,16 @@ html, body {
   margin-bottom: 10px;
 }
 
-.caption p {
-  line-height: 1.6;
-}
-
 /* =========================
-   SLIDE ALIGNMENT
+   LAYOUT TYPES
 ========================= */
 
-/* Slide 2 reverse */
+/* slide 2 (kanan gambar) */
 .slide.reverse {
   flex-direction: row-reverse;
 }
 
-/* Slide center (3 & 4) */
+/* slide center */
 .slide.center {
   flex-direction: column;
   text-align: center;
@@ -447,20 +441,18 @@ html, body {
   width: 80%;
 }
 
-/* Closing slide */
+/* closing */
 .slide.closing {
   flex-direction: column;
   text-align: center;
 }
 
 .slide.closing h3 {
-  font-size: 28px;
-  margin-bottom: 20px;
+  font-size: 26px;
   color: #ffe082;
 }
 
 .slide.closing p {
-  font-size: 18px;
   line-height: 1.8;
 }
 
@@ -470,15 +462,15 @@ html, body {
 
 .nav-buttons {
   text-align: center;
-  margin: 30px;
+  margin: 20px;
 }
 
 .nav-buttons button {
-  padding: 10px 18px;
-  margin: 0 10px;
-  border: none;
+  padding: 10px 20px;
+  margin: 5px;
   border-radius: 10px;
+  border: none;
   background: #ffe082;
-  cursor: pointer;
   font-size: 18px;
+  cursor: pointer;
 }
