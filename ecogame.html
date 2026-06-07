@@ -8,39 +8,46 @@
 
 <body class="eco-page">
 
-<h2 class="eco-title">
-  🔍 Spot the Mistake: Enviro Finding
-</h2>
+  <h2 class="eco-title">
+    🔍 Eco Game
+  </h2>
 
-<div class="eco-container">
+  <div class="eco-container">
 
-  <!-- OFFICE -->
-  <div class="eco-card" onclick="openScene('office')">
-    <img src="Assets/scenes/Office.png" alt="Office">
-    <div class="eco-overlay">
-      <p>Office</p>
+    <!-- OFFICE -->
+    <div class="eco-card" onclick="openScene('office')">
+      <img src="Assets/scenes/Office.png" alt="Office">
+      <div class="eco-overlay">
+        <p>Office</p>
+      </div>
     </div>
+
+    <!-- WORKSHOP -->
+    <div class="eco-card" onclick="openScene('workshop')">
+      <img src="Assets/scenes/Workshop.jpeg" alt="Workshop">
+      <div class="eco-overlay">
+        <p>Workshop</p>
+      </div>
+    </div>
+
+    <!-- TEMP CAMP -->
+    <div class="eco-card" onclick="openScene('camp')">
+      <img src="Assets/scenes/TempCamp.jpeg" alt="Temp Camp">
+      <div class="eco-overlay">
+        <p>Temp Camp</p>
+      </div>
+    </div>
+
+    <!-- ENVIRO HERO PUZZLE -->
+    <div class="eco-card" onclick="openPuzzle()">
+      <img src="Assets/slide/slide5-closing.png" alt="Enviro Hero">
+      <div class="eco-overlay">
+        <p>Enviro Hero</p>
+      </div>
+    </div>
+
   </div>
 
-  <!-- WORKSHOP -->
-  <div class="eco-card" onclick="openScene('workshop')">
-    <img src="Assets/scenes/Workshop.jpeg" alt="Workshop">
-    <div class="eco-overlay">
-      <p>Workshop</p>
-    </div>
-  </div>
-
-  <!-- CAMP -->
-  <div class="eco-card" onclick="openScene('camp')">
-    <img src="Assets/scenes/TempCamp.jpeg" alt="Temp Camp">
-    <div class="eco-overlay">
-      <p>Temp Camp</p>
-    </div>
-  </div>
-
-</div>
-
-<script src="wedpml.js"></script>
-
+  <script src="wedpml.js"></script>
 </body>
 </html>
