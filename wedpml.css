@@ -787,6 +787,6 @@ html, body {
   }
 }
 
-
-.puzzle-slots {.puzzle-sl none;
+.puzzle-slots {
+  display: none;
 }
