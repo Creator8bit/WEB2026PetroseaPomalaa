@@ -12,6 +12,10 @@ function goStory() {
   window.location.href = "eco-story.html";
 }
 
+function openPuzzle() {
+  window.location.href = "puzzle.html";
+}
+
 // =====================
 // ECO GAME NAVIGATION
 // =====================
