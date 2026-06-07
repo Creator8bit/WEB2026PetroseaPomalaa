@@ -1,23 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<head><html lang="en">
   <meta charset="UTF-8">
   <title>Enviro Hero Puzzle</title>
   <link rel="stylesheet" href="wedpml.css">
 </head>
+
 <body class="puzzle-page">
 
-  <!-- ===================== -->
   <!-- TITLE -->
-  <!-- ===================== -->
   <h2 class="puzzle-title">🧩 Enviro Hero</h2>
   <p class="puzzle-subtitle">
     Susun potongan puzzle hingga membentuk gambar utuh 🌱
   </p>
 
-  <!-- ===================== -->
   <!-- PUZZLE LAYOUT -->
-  <!-- ===================== -->
   <div class="puzzle-layout">
 
     <!-- LEFT SIDE (PIECES) -->
@@ -37,11 +33,14 @@
         >
       </div>
 
+      <!-- BUTTONS -->
       <div class="puzzle-actions">
         <button onclick="shufflePuzzlePieces()">🔀 Shuffle</button>
         <button onclick="resetPuzzleBoard()">♻️ Reset</button>
+        <button onclick="toggleGuide()">✅ Helper</button>
       </div>
 
+      <!-- STATUS -->
       <p id="puzzleStatus" class="puzzle-status">
         Progress: 0 / 15
       </p>
@@ -50,9 +49,7 @@
 
   </div>
 
-  <!-- ===================== -->
   <!-- BACK BUTTON -->
-  <!-- ===================== -->
   <div style="text-align:center; margin-top:30px;">
     <button onclick="goGame()" class="btn">
       ⬅ Back to Eco Game
@@ -63,5 +60,3 @@
 
 </body>
 </html>
-<head>
-
