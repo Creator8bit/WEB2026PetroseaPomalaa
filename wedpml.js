@@ -611,11 +611,13 @@ function countSnappedPieces() {
 
 function updatePuzzleStatus() {
   if (!puzzleStatus) return;
+
   const snapped = countSnappedPieces();
   puzzleStatus.innerText = `Progress: ${snapped} / ${puzzleData.length}`;
 
-  if (snapped === puzzleData.length) {
-    puzzleStatus.innerText = `🎉 Puzzle selesai! ${snapped} / ${puzzleData.length}`;
+  if (snapped === puzzleData.length && puzzleData.length > 0) {
+    stopTimer();
+    puzzleStatus.innerText = `🎉 Puzzle selesai dalam ${formatTime(timer)}!`;
   }
 }
 
@@ -762,9 +764,11 @@ function createGhost(piece, widthPx, heightPx) {
 
 function startDragPiece(e, pieceId, sourceType, sourceEl) {
   e.preventDefault();
-  
-  startTimer();
-  
+
+  if (countSnappedPieces() < puzzleData.length) {
+    startTimer();
+  }
+
   const piece = getPieceById(pieceId);
   if (!piece) return;
 
@@ -935,6 +939,7 @@ async function initPuzzle() {
 }
 
 function shufflePuzzlePieces() {
+  resetTimer();
   puzzleData = shuffleArray(
     puzzleData.map(piece => ({
       ...piece,
@@ -948,6 +953,8 @@ function shufflePuzzlePieces() {
 }
 
 function resetPuzzleBoard() {
+  resetTimer();
+
   puzzleData = puzzleData.map(piece => ({
     ...piece,
     placed: false,
@@ -955,6 +962,7 @@ function resetPuzzleBoard() {
     freeX: 0,
     freeY: 0
   }));
+
   renderPuzzle();
 }
 
