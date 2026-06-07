@@ -406,13 +406,29 @@ function foundCamp(id) {
   }
 }
 
-// Story
+// =====================
+// ECO STORY SLIDER
+// =====================
 let current = 0;
 const slides = document.querySelectorAll(".slide");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
 
 function showSlide(index) {
-  slides.forEach(s => s.classList.remove("active"));
+  if (!slides.length) return;
+
+  slides.forEach(slide => slide.classList.remove("active"));
   slides[index].classList.add("active");
+
+  // hide prev on first slide
+  if (prevBtn) {
+    prevBtn.style.display = index === 0 ? "none" : "inline-block";
+  }
+
+  // hide next on last slide
+  if (nextBtn) {
+    nextBtn.style.display = index === slides.length - 1 ? "none" : "inline-block";
+  }
 }
 
 function nextSlide() {
@@ -427,4 +443,9 @@ function prevSlide() {
     current--;
     showSlide(current);
   }
+}
+
+// init only if story slides exist
+if (slides.length) {
+  showSlide(current);
 }
