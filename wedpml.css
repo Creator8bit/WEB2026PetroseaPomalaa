@@ -786,3 +786,7 @@ html, body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+
+.puzzle-slots {.puzzle-sl none;
+}
