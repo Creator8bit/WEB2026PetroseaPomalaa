@@ -1,7 +1,22 @@
+/* =========================
+   GLOBAL
+========================= */
 html, body {
   margin: 0;
-  height: 100%;
+  min-height: 100%;
   font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #222;
+}
+
+/* =========================
+   COLOR SYSTEM
+========================= */
+:root {
+  --primary: #0f5b43;
+  --primary-light: #137a5a;
+  --bg-light: #f5f7f6;
+  --shadow-soft: 0 6px 16px rgba(0,0,0,0.1);
 }
 
 /* =========================
@@ -11,7 +26,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .bg-wrapper {
@@ -33,7 +48,7 @@ html, body {
 }
 
 .btn {
-  background: #0f5b43;
+  background: var(--primary);
   color: white;
   border: none;
   padding: 12px 28px;
@@ -44,29 +59,36 @@ html, body {
 }
 
 .btn:hover {
-  background: #137a5a;
+  background: var(--primary-light);
   transform: translateY(-3px);
 }
 
 /* =========================
-   ECO GAME (FIND MISTAKE)
+   ECO GAME MENU
 ========================= */
 .eco-page {
-  background: #fff;
+  background: #ffffff;
 }
 
 .eco-title {
   text-align: center;
-  margin-top: 80px;
-  color: #0f5b43;
+  margin-top: 70px;
+  color: var(--primary);
+}
+
+.eco-subtitle {
+  text-align: center;
+  color: #555;
+  margin-top: -8px;
 }
 
 .eco-container {
   display: flex;
   justify-content: center;
   gap: 25px;
-  margin-top: 80px;
+  margin-top: 60px;
   flex-wrap: wrap;
+  padding: 0 16px 40px;
 }
 
 .eco-card {
@@ -76,7 +98,7 @@ html, body {
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  box-shadow: var(--shadow-soft);
   transition: 0.3s;
 }
 
@@ -104,11 +126,11 @@ html, body {
 .eco-overlay p {
   font-size: 20px;
   font-weight: bold;
-  color: #0f5b43;
+  color: var(--primary);
 }
 
 .eco-card:hover .eco-overlay {
-  background: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.75);
   opacity: 1;
 }
 
@@ -122,7 +144,7 @@ html, body {
 .scene-title {
   text-align: center;
   margin-top: 60px;
-  color: #0f5b43;
+  color: var(--primary);
 }
 
 .scene-container {
@@ -149,14 +171,31 @@ html, body {
 }
 
 /* =========================
-   ENVIRO HERO PUZZLE
+   STORY PAGE
 ========================= */
+.story-page {
+  background: #ffffff;
+}
+
+.story-title {
+  text-align: center;
+  margin: 25px 0;
+  color: var(--primary);
+}
+
+/* =========================
+   PUZZLE PAGE
+========================= */
+.puzzle-page {
+  background: #ffffff;
+  padding: 20px;
+}
 
 .puzzle-title {
   text-align: center;
-  color: #0f5b43;
-  margin-top: 70px;
-  font-size: 28px;
+  color: var(--primary);
+  margin-top: 40px;
+  font-size: 30px;
 }
 
 .puzzle-subtitle {
@@ -174,14 +213,16 @@ html, body {
   gap: 20px;
 }
 
+/* panels */
 .puzzle-tray-wrap,
 .puzzle-board-wrap {
   background: white;
   border-radius: 16px;
   padding: 15px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-soft);
 }
 
+/* tray */
 .puzzle-tray {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -189,7 +230,7 @@ html, body {
 }
 
 .puzzle-piece-card {
-  background: #f5f5f5;
+  background: var(--bg-light);
   border-radius: 10px;
   padding: 8px;
   cursor: grab;
@@ -219,6 +260,16 @@ html, body {
   overflow: hidden;
 }
 
+.puzzle-guide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
 /* piece */
 .board-piece {
   position: absolute;
@@ -230,14 +281,14 @@ html, body {
   cursor: default;
 }
 
-/* controls */
+/* actions */
 .puzzle-actions {
   text-align: center;
   margin-top: 10px;
 }
 
 .puzzle-actions button {
-  background: #0f5b43;
+  background: var(--primary);
   color: white;
   border: none;
   padding: 10px 15px;
@@ -246,24 +297,20 @@ html, body {
   cursor: pointer;
 }
 
+.puzzle-actions button:hover {
+  background: var(--primary-light);
+}
+
 .puzzle-status {
   text-align: center;
   margin-top: 10px;
   font-weight: bold;
-  color: #0f5b43;
-}
-
-/* =========================
-   STORY PAGE (KEEP)
-========================= */
-.story-page {
-  background: white;
+  color: var(--primary);
 }
 
 /* =========================
    RESPONSIVE
 ========================= */
-
 @media(max-width: 900px){
   .puzzle-layout {
     grid-template-columns: 1fr;
