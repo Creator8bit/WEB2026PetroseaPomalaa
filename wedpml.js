@@ -4,23 +4,16 @@ function goTwibbon() {
   window.location.href = "twibbon.html";
 }
 
-function goGame() {
-  window.location.href = "ecogame.html";
-}
-
 function goStory() {
   window.location.href = "eco-story.html";
 }
 
-function openPuzzle() {
-  window.location.href = "puzzle.html";
-}
-
-// =====================
-// ECO GAME NAVIGATION
-// =====================
 function openScene(scene) {
   window.location.href = "scene-" + scene + ".html";
+}
+
+function openPuzzle() {
+  window.location.href = "puzzle.html";
 }
 
 // =====================
@@ -164,7 +157,7 @@ function addIcon(src) {
   icon.dataset.size = "60";
 
   layer.appendChild(icon);
-  makeDraggable(icon);
+  makeDraggableIcon(icon);
   selectIcon(icon);
 
   icon.addEventListener("click", (e) => {
@@ -184,9 +177,9 @@ if (layer) {
 }
 
 // =====================
-// DRAG ICON
+// DRAG ICON (TWIBBON)
 // =====================
-function makeDraggable(icon) {
+function makeDraggableIcon(icon) {
   let dragging = false;
   let offsetX = 0;
   let offsetY = 0;
@@ -346,14 +339,14 @@ async function downloadTwibbon() {
 // =====================
 // WRONG CLICK
 // =====================
-function wrongClick(event) {
+function wrongClick() {
   const officeInfo = document.getElementById("info");
   const workshopInfo = document.getElementById("info-workshop");
   const campInfo = document.getElementById("info-camp");
 
-  if (officeInfo) officeInfo.innerText = "❌ Lebih Spesifik 😏";
-  if (workshopInfo) workshopInfo.innerText = "❌ Lebih Spesifik 😏";
-  if (campInfo) campInfo.innerText = "❌ Lebih Spesifik 😏";
+  if (officeInfo) officeInfo.innerText = "❌ Lebih spesifik 😏";
+  if (workshopInfo) workshopInfo.innerText = "❌ Lebih spesifik 😏";
+  if (campInfo) campInfo.innerText = "❌ Lebih spesifik 😏";
 }
 
 // =====================
@@ -364,13 +357,13 @@ function foundOffice(id) {
   if (!info) return;
 
   if (id === 1) {
-    info.innerText = "✅ 😰 Menyimpan bahan kimia di botol minuman? fatal ini kalau tertelan.";
+    info.innerText = "✅ 😰 Menyimpan bahan kimia di botol minuman? Fatal ini kalau tertelan.";
   }
   if (id === 2) {
     info.innerText = "✅ 🤢 Sampah kecil doang??? Nanti kecoa dan tikus bertamu lho!";
   }
   if (id === 3) {
-    info.innerText = "✅ 😑 Ada lho 5R! Ringkas..Rapi..Resik..Rawat..Rajin";
+    info.innerText = "✅ 😑 Ada lho 5R! Ringkas, Rapi, Resik, Rawat, Rajin.";
   }
 }
 
@@ -382,13 +375,13 @@ function foundWorkshop(id) {
   if (!info) return;
 
   if (id === 1) {
-    info.innerText = "✅ 😖 \"Licin… bau… ini bukan workshop, ini bahaya!\" Tumpahan oli yang dibiarkan bisa bikin kecelakaan dan mencemari tanah.";
+    info.innerText = "✅ 😖 Licin… bau… ini bukan workshop, ini bahaya! Tumpahan oli yang dibiarkan bisa bikin kecelakaan dan mencemari tanah.";
   }
   if (id === 2) {
-    info.innerText = "✅ 🤢 \"Udah penuh, tetep dibuang ke sini?\" Sampah numpuk bukan cuma kotor—tapi jadi sumber penyakit dan bau menyengat.";
+    info.innerText = "✅ 🤢 Udah penuh, tetep dibuang ke sini? Sampah numpuk bukan cuma kotor—tapi jadi sumber penyakit dan bau menyengat.";
   }
   if (id === 3) {
-    info.innerText = "✅ 😡 \"Ini limbah berbahaya, bukan sampah biasa!\" Penanganan yang salah bisa mencemari tanah dan air dalam jangka panjang.";
+    info.innerText = "✅ 😡 Ini limbah berbahaya, bukan sampah biasa! Penanganan yang salah bisa mencemari tanah dan air dalam jangka panjang.";
   }
 }
 
@@ -400,13 +393,13 @@ function foundCamp(id) {
   if (!info) return;
 
   if (id === 1) {
-    info.innerText = "✅ 😷 \"Ohok… ohok… pengap banget!\" Asap dari pembakaran sampah ini nggak cuma ganggu—tapi berbahaya buat kesehatan.";
+    info.innerText = "✅ 😷 Ohok… ohok… pengap banget! Asap dari pembakaran sampah ini nggak cuma ganggu—tapi berbahaya buat kesehatan.";
   }
   if (id === 2) {
     info.innerText = "✅ 😵 Satu puntung kecil saja bisa mencemari lingkungan, apalagi sebanyak itu.";
   }
   if (id === 3) {
-    info.innerText = "✅ 🤢 \"Bau… kotor… ini camp atau tempat pembuangan?\" Sampah tidak dikelola = sumber penyakit + pencemaran.";
+    info.innerText = "✅ 🤢 Bau… kotor… ini camp atau tempat pembuangan? Sampah tidak dikelola = sumber penyakit + pencemaran.";
   }
 }
 
@@ -424,12 +417,10 @@ function showSlide(index) {
   slides.forEach(slide => slide.classList.remove("active"));
   slides[index].classList.add("active");
 
-  // hide prev on first slide
   if (prevBtn) {
     prevBtn.style.display = index === 0 ? "none" : "inline-block";
   }
 
-  // hide next on last slide
   if (nextBtn) {
     nextBtn.style.display = index === slides.length - 1 ? "none" : "inline-block";
   }
@@ -449,19 +440,23 @@ function prevSlide() {
   }
 }
 
-// init only if story slides exist
 if (slides.length) {
   showSlide(current);
 }
 
 // =====================
-// PUZZLEuzzleStatus");// PUZZLE - ENVIRO HERO
+// PUZZLE ELEMENTS
+// =====================
+const puzzleTray = document.getElementById("puzzleTray");
+const puzzleBoard = document.getElementById("puzzleBoard");
+const puzzleStatus = document.getElementById("puzzleStatus");
 
-// ukuran canvas asli dari Canva export
+// =====================
+// PUZZLE CONFIG
+// =====================
 const PUZZLE_CANVAS_W = 5361;
 const PUZZLE_CANVAS_H = 2835;
 
-// daftar potongan puzzle
 const puzzlePieces = [
   "Assets/puzzle/p1.png",
   "Assets/puzzle/p2.png",
@@ -485,7 +480,7 @@ let currentPuzzleOrder = [];
 let placedCount = 0;
 
 // =====================
-// SHUFFLE FUNCTION
+// PUZZLE SHUFFLE
 // =====================
 function shuffleArray(arr) {
   const copy = [...arr];
@@ -497,7 +492,7 @@ function shuffleArray(arr) {
 }
 
 // =====================
-// ANALYZE IMAGE (AUTO DETECT SHAPE)
+// ANALYZE PIECE
 // =====================
 function analyzePiece(src) {
   return new Promise((resolve) => {
@@ -513,8 +508,10 @@ function analyzePiece(src) {
 
       const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
 
-      let minX = canvas.width, minY = canvas.height;
-      let maxX = 0, maxY = 0;
+      let minX = canvas.width;
+      let minY = canvas.height;
+      let maxX = 0;
+      let maxY = 0;
 
       for (let y = 0; y < canvas.height; y++) {
         for (let x = 0; x < canvas.width; x++) {
@@ -550,18 +547,19 @@ function analyzePiece(src) {
 }
 
 // =====================
-// LOAD ALL PIECES META
+// PREPARE PUZZLE
 // =====================
 async function preparePuzzle() {
   for (const src of puzzlePieces) {
     pieceMetaMap[src] = await analyzePiece(src);
   }
+
   currentPuzzleOrder = shuffleArray(puzzlePieces);
   renderPuzzle();
 }
 
 // =====================
-// RENDER GAME
+// RENDER PUZZLE
 // =====================
 function renderPuzzle() {
   if (!puzzleTray || !puzzleBoard) return;
@@ -576,18 +574,19 @@ function renderPuzzle() {
   currentPuzzleOrder.forEach((src) => {
     const meta = pieceMetaMap[src];
 
-    // === tray ===
+    // TRAY
     const card = document.createElement("div");
     card.className = "puzzle-piece-card";
 
     const thumb = document.createElement("img");
     thumb.src = meta.trimmedSrc;
     thumb.className = "puzzle-piece-thumb";
+    thumb.alt = "Puzzle piece";
 
     card.appendChild(thumb);
     puzzleTray.appendChild(card);
 
-    // === board ===
+    // BOARD
     const piece = document.createElement("img");
     piece.src = meta.trimmedSrc;
     piece.className = "board-piece";
@@ -601,25 +600,25 @@ function renderPuzzle() {
     piece.style.width = meta.trimW * scaleX + "px";
     piece.style.height = meta.trimH * scaleY + "px";
 
-    // random position
     piece.style.left = Math.random() * 200 + "px";
     piece.style.top = Math.random() * 200 + "px";
 
     puzzleBoard.appendChild(piece);
 
-    makeDraggablePuzzle(piece, card);
+    makePuzzlePieceDraggable(piece, card);
   });
 
   placedCount = 0;
-  updateStatus();
+  updatePuzzleStatus();
 }
 
 // =====================
-// DRAG + SNAP
+// DRAG + SNAP PUZZLE
 // =====================
-function makeDraggablePuzzle(piece, card) {
+function makePuzzlePieceDraggable(piece, card) {
   let dragging = false;
-  let offsetX, offsetY;
+  let offsetX = 0;
+  let offsetY = 0;
 
   piece.addEventListener("pointerdown", (e) => {
     if (piece.classList.contains("placed")) return;
@@ -665,15 +664,19 @@ function makeDraggablePuzzle(piece, card) {
       card.classList.add("placed");
 
       placedCount++;
-      updateStatus();
+      updatePuzzleStatus();
     }
+  });
+
+  piece.addEventListener("pointercancel", () => {
+    dragging = false;
   });
 }
 
 // =====================
-// STATUS
+// PUZZLE STATUS
 // =====================
-function updateStatus() {
+function updatePuzzleStatus() {
   if (!puzzleStatus) return;
 
   puzzleStatus.innerText = `Progress: ${placedCount} / ${puzzlePieces.length}`;
@@ -681,6 +684,25 @@ function updateStatus() {
   if (placedCount === puzzlePieces.length) {
     puzzleStatus.innerText = "✅ Enviro Hero Complete!";
   }
+}
+
+// =====================
+// PUZZLE BUTTONS
+// =====================
+function shufflePuzzlePieces() {
+  currentPuzzleOrder = shuffleArray(puzzlePieces);
+  renderPuzzle();
+}
+
+function resetPuzzleBoard() {
+  renderPuzzle();
+}
+
+// =====================
+// INIT PUZZLE
+// =====================
+if (puzzleTray && puzzleBoard) {
+  preparePuzzle();
 }
 
 // =====================
