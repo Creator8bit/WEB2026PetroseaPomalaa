@@ -762,7 +762,9 @@ function createGhost(piece, widthPx, heightPx) {
 
 function startDragPiece(e, pieceId, sourceType, sourceEl) {
   e.preventDefault();
-
+  
+  startTimer();
+  
   const piece = getPieceById(pieceId);
   if (!piece) return;
 
@@ -966,4 +968,44 @@ window.addEventListener("resize", () => {
 // INIT CALL
 if (puzzleTray && puzzleBoard) {
   initPuzzle();
+}
+
+// =====================
+// TIMER
+// =====================
+let timer = 0;
+let timerInterval = null;
+let timerRunning = false;
+
+const timerDisplay = document.getElementById("puzzleTimer");
+
+function formatTime(seconds) {
+  const min = String(Math.floor(seconds / 60)).padStart(2, "0");
+  const sec = String(seconds % 60).padStart(2, "0");
+  return `${min}:${sec}`;
+}
+
+function startTimer() {
+  if (timerRunning) return;
+
+  timerRunning = true;
+  timerInterval = setInterval(() => {
+    timer++;
+    if (timerDisplay) {
+      timerDisplay.innerText = `⏱ Time: ${formatTime(timer)}`;
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  timerRunning = false;
+  clearInterval(timerInterval);
+}
+
+function resetTimer() {
+  stopTimer();
+  timer = 0;
+  if (timerDisplay) {
+    timerDisplay.innerText = "⏱ Time: 00:00";
+  }
 }
