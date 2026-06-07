@@ -9,7 +9,7 @@ function goGame() {
 }
 
 function goStory() {
-  alert("On Progress~");
+  window.location.href = "eco-story.html";
 }
 
 // =====================
