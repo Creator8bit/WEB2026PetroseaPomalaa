@@ -406,6 +406,7 @@ function foundCamp(id) {
   }
 }
 
+// Story
 let current = 0;
 const slides = document.querySelectorAll(".slide");
 
