@@ -8,81 +8,75 @@
 
 <body class="eco-page">
 
-<!-- ===================== -->
-<!-- FIND THE MISTAKE -->
-<!-- ===================== -->
+  <!-- ===================== -->
+  <!-- FIND THE MISTAKE -->
+  <!-- ===================== -->
+  <h2 class="eco-title">
+    🔍 Spot the Mistake: Enviro Finding
+  </h2>
 
-<h2 class="eco-title">
-  🔍 Spot the Mistake: Enviro Finding
-</h2>
+  <div class="eco-container">
 
-<div class="eco-container">
-
-  <!-- OFFICE -->
-  <div class="eco-card" onclick="openScene('office')">
-    <img src="Assets/scenes/Office.png" alt="Office">
-    <div class="eco-overlay">
-      <p>Office</p>
-    </div>
-  </div>
-
-  <!-- WORKSHOP -->
-  <div class="eco-card" onclick="openScene('workshop')">
-    <img src="Assets/scenes/Workshop.jpeg" alt="Workshop">
-    <div class="eco-overlay">
-      <p>Workshop</p>
-    </div>
-  </div>
-
-  <!-- CAMP -->
-  <div class="eco-card" onclick="openScene('camp')">
-    <img src="Assets/scenes/TempCamp.jpeg" alt="Temp Camp">
-    <div class="eco-overlay">
-      <p>Temp Camp</p>
-    </div>
-  </div>
-
-</div>
-
-<!-- ===================== -->
-<!-- PUZZLE GAME -->
-<!-- ===================== -->
-
-<h2 class="eco-title" style="margin-top:60px;">
-  🧩 Enviro Hero
-</h2>
-
-<p style="text-align:center; margin-top:-10px;">
-  Susun puzzle untuk melihat momen World Environment Day 2026 🌱
-</p>
-
-<div class="puzzle-layout">
-
-  <!-- PIECES -->
-  <div class="puzzle-tray-wrap">
-    <h3>Puzzle Pieces</h3>
-    <div id="puzzleTray" class="puzzle-tray"></div>
-  </div>
-
-  <!-- BOARD -->
-  <div class="puzzle-board-wrap">
-    <div id="puzzleBoard" class="puzzle-board">
-      <img src="Assets/slide/slide5-closing.png" class="puzzle-guide">
+    <!-- OFFICE -->
+    <div class="eco-card" onclick="openScene('office')">
+      <img src="Assets/scenes/Office.png" alt="Office">
+      <div class="eco-overlay">
+        <p>Office</p>
+      </div>
     </div>
 
-    <div class="puzzle-actions">
-      <button onclick="shufflePuzzlePieces()">🔀 Acak Ulang</button>
-      <button onclick="resetPuzzleBoard()">♻️ Reset</button>
+    <!-- WORKSHOP -->
+    <div class="eco-card" onclick="openScene('workshop')">
+      <img src="Assets/scenes/Workshop.jpeg" alt="Workshop">
+      <div class="eco-overlay">
+        <p>Workshop</p>
+      </div>
     </div>
 
-    <p id="puzzleStatus" class="puzzle-status">
-      Progress: 0 / 15
-    </p>
+    <!-- CAMP -->
+    <div class="eco-card" onclick="openScene('camp')">
+      <img src="Assets/scenes/TempCamp.jpeg" alt="Temp Camp">
+      <div class="eco-overlay">
+        <p>Temp Camp</p>
+      </div>
+    </div>
+
   </div>
 
-</div>
+  <!-- ===================== -->
+  <!-- PUZZLE GAME -->
+  <!-- ===================== -->
+  <h2 class="puzzle-title">🧩 Enviro Hero</h2>
+  <p class="puzzle-subtitle">
+    Susun 15 potongan puzzle untuk melihat momen World Environment Day 2026 🌱
+  </p>
 
-<script src="wedpml.js"></script>
+  <div class="puzzle-layout">
 
+    <!-- LEFT: PIECES -->
+    <div class="puzzle-tray-wrap">
+      <h3>Puzzle Pieces</h3>
+      <div id="puzzleTray" class="puzzle-tray"></div>
+    </div>
+
+    <!-- RIGHT: BOARD -->
+    <div class="puzzle-board-wrap">
+      <div id="puzzleBoard" class="puzzle-board">
+        <img src="Assets/slide/slide5-closing.png" class="puzzle-guide" alt="Puzzle Guide">
+      </div>
+
+      <div class="puzzle-actions">
+        <button onclick="shufflePuzzlePieces()">🔀 Acak Ulang</button>
+        <button onclick="resetPuzzleBoard()">♻️ Reset</button>
+      </div>
+
+      <p id="puzzleStatus" class="puzzle-status">
+        Progress: 0 / 15
+      </p>
+    </div>
+
+  </div>
+
+  <script src="wedpml.js"></script>
 </body>
 </html>
