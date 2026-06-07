@@ -5,7 +5,7 @@ html, body {
 }
 
 /* =========================
-   HOMEPAGE (biarkan kalau sudah oke)
+   HOMEPAGE
 ========================= */
 .home {
   display: flex;
@@ -13,22 +13,25 @@ html, body {
   align-items: center;
   height: 100vh;
 }
+
 .bg-wrapper {
   position: relative;
   width: 100%;
   max-width: 1200px;
 }
+
 .bg {
   width: 100%;
-  height: auto;
   display: block;
 }
+
 .button-container {
   position: absolute;
   bottom: 30%;
   width: 100%;
   text-align: center;
 }
+
 .btn {
   background: #0f5b43;
   color: white;
@@ -36,305 +39,90 @@ html, body {
   padding: 12px 28px;
   margin: 0 15px;
   border-radius: 12px;
-  font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-  transition: all 0.25s ease;
+  transition: 0.25s;
 }
+
 .btn:hover {
   background: #137a5a;
   transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.6);
 }
 
 /* =========================
-   TWIBBON
+   ECO GAME (FIND MISTAKE)
 ========================= */
-.title {
-  text-align: center;
-  margin: 18px 0 10px;
-}
-
-.twibbon-page {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 12px 16px 24px;
-}
-
-.twibbon-container {
-  position: relative;
-  width: min(92vw, 520px);
-  aspect-ratio: 1 / 1;
-  margin: 0 auto;
-  background: #e9ecef;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-}
-
-#photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.frame {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 2;
-}
-
-#icon-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  touch-action: none; /* penting untuk drag di mobile */
-}
-
-#icon-layer img {
-  position: absolute;
-  width: 60px;
-  user-select: none;
-  -webkit-user-drag: none;
-  touch-action: none;
-}
-
-#icon-layer img.selected {
-  outline: 2px dashed #1a8f68;
-  outline-offset: 2px;
-  border-radius: 8px;
-}
-
-.controls {
-  margin-top: 16px;
-  text-align: center;
-}
-
-.controls button,
-.icon-tools button {
-  background: #0f5b43;
-  color: white;
-  border: none;
-  padding: 10px 16px;
-  margin: 6px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.controls button:hover,
-.icon-tools button:hover {
-  background: #137a5a;
-}
-
-.icon-picker {
-  margin-top: 18px;
-  text-align: center;
-}
-
-.icon-picker h3 {
-  margin-bottom: 8px;
-}
-
-.icon-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
-
-.icon-picker img {
-  width: 44px;
-  height: 44px;
-  object-fit: contain;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.icon-picker img:hover {
-  transform: scale(1.08);
-}
-
-.icon-tools {
-  max-width: 520px;
-  margin: 18px auto 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-#sizeRange {
-  width: 220px;
-}
-
-.trash-bin {
-  max-width: 520px;
-  margin: 14px auto 0;
-  padding: 12px;
-  text-align: center;
-  border: 2px dashed #999;
-  border-radius: 12px;
-  background: #fafafa;
-  color: #555;
-  transition: all 0.2s ease;
-}
-
-.trash-bin.active {
-  border-color: #c62828;
-  background: #ffebee;
-  color: #b71c1c;
-}
-
-/* camera modal */
-.camera-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.75);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 999;
-}
-
-.camera-modal.hidden {
-  display: none;
-}
-
-.camera-panel {
-  background: white;
-  padding: 16px;
-  border-radius: 14px;
-  width: min(92vw, 520px);
-}
-
-#cameraVideo {
-  width: 100%;
-  border-radius: 12px;
-  background: black;
-}
-
-.camera-actions {
-  text-align: center;
-  margin-top: 12px;
-}
-
-.camera-actions button {
-  margin: 0 6px;
-  padding: 10px 14px;
-}
-
-@media (max-width: 768px) {
-  .icon-tools {
-    flex-direction: column;
-  }
-
-  #sizeRange {
-    width: 80%;
-  }
-}
-
 .eco-page {
-  background: white;
-  font-family: Arial;
+  background: #fff;
 }
 
-/* TITLE */
 .eco-title {
   text-align: center;
-  margin-top: 100px;
+  margin-top: 80px;
   color: #0f5b43;
 }
 
-/* CONTAINER */
 .eco-container {
   display: flex;
   justify-content: center;
-  gap: 30px;
-  margin-top: 150px;
+  gap: 25px;
+  margin-top: 80px;
   flex-wrap: wrap;
 }
 
-/* CARD */
 .eco-card {
-  position: relative;
-  width: 260px;
-  height: 180px;
+  width: 230px;
+  height: 160px;
   border-radius: 16px;
   overflow: hidden;
   cursor: pointer;
-
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  position: relative;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
   transition: 0.3s;
 }
 
-/* IMAGE FULL */
 .eco-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* OVERLAY */
+.eco-card:hover {
+  transform: translateY(-5px) scale(1.03);
+}
+
 .eco-overlay {
   position: absolute;
   inset: 0;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background: rgba(255,255,255,0); /* invisible awal */
+  background: transparent;
   opacity: 0;
-
   transition: 0.3s;
 }
 
-/* TEXT */
 .eco-overlay p {
   font-size: 20px;
   font-weight: bold;
   color: #0f5b43;
-
-  transform: translateY(10px);
-  transition: 0.3s;
 }
 
-/* HOVER EFFECT */
-.eco-card:hover {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow: 0 18px 35px rgba(0,0,0,0.5);
-}
-
-/* SHOW OVERLAY */
 .eco-card:hover .eco-overlay {
-  background: rgba(255,255,255,0.7); /* putih transparan */
+  background: rgba(255,255,255,0.7);
   opacity: 1;
-}
-
-/* TEXT ANIMATION */
-.eco-card:hover .eco-overlay p {
-  transform: translateY(0);
 }
 
 /* =========================
    SCENE PAGE
 ========================= */
-
 .scene-page {
   background: white;
-  font-family: Arial, sans-serif;
 }
 
 .scene-title {
   text-align: center;
   margin-top: 60px;
   color: #0f5b43;
-  font-size: 22px;
 }
 
 .scene-container {
@@ -346,207 +134,142 @@ html, body {
 
 .scene-container img {
   width: 100%;
-  display: block;
   border-radius: 16px;
 }
 
-/* area klik */
-/* area klik */
 .spot {
   position: absolute;
   cursor: pointer;
   border-radius: 12px;
 }
 
-/*background: rgba(255, 0, 0, 0.25); 🔴 DEBUG ON */
-
 .info-text {
   text-align: center;
-  font-size: 18px;
   margin-top: 20px;
-  padding: 12px;
-  color: #333;
-  min-height: 28px;
 }
 
 /* =========================
-   STORY PAGE
+   ENVIRO HERO PUZZLE
 ========================= */
 
-.story-page {
-  background: #ffffff;
-  color: #222;
-  font-family: Arial, sans-serif;
-}
-
-.story-title {
+.puzzle-title {
   text-align: center;
-  margin: 25px 0;
   color: #0f5b43;
-}
-
-.story-container {
-  width: 92%;
-  max-width: 1100px;
-  margin: 0 auto;
-  min-height: 70vh;
-}
-
-.slide {
-  display: none;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-}
-
-.slide.active {
-  display: flex;
-}
-
-.story-img {
-  width: 45%;
-  border-radius: 16px;
-  object-fit: cover;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-
-.caption {
-  width: 50%;
-  background: #ffffff;
-  padding: 22px;
-  border-radius: 14px;
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-}
-
-.caption h3 {
-  margin-bottom: 12px;
-  color: #0f5b43;
+  margin-top: 70px;
   font-size: 28px;
 }
 
-.caption p {
-  line-height: 1.7;
-  font-size: 18px;
-}
-
-/* reverse slide */
-.slide.reverse {
-  flex-direction: row-reverse;
-}
-
-/* center layout */
-.slide.center {
-  flex-direction: column;
+.puzzle-subtitle {
   text-align: center;
-  gap: 18px;
+  color: #555;
 }
 
-.slide.center .story-img {
+/* layout */
+.puzzle-layout {
   width: 95%;
-  max-width: 1000px;
-  max-height: 70vh;
-  object-fit: contain;
+  max-width: 1400px;
+  margin: 30px auto;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 20px;
 }
 
-.slide.center .caption {
-  width: 78%;
-}
-
-/* video */
-.video-wrapper {
-  width: 95%;
-  max-width: 1000px;
-  aspect-ratio: 16 / 9;
+.puzzle-tray-wrap,
+.puzzle-board-wrap {
+  background: white;
   border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  padding: 15px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
-.video-wrapper iframe {
-  width: 100%;
-  height: 100%;
-  display: block;
+.puzzle-tray {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
-/* closing */
-.slide.closing {
-  flex-direction: column;
-  text-align: center;
-  gap: 18px;
-}
-
-.slide.closing .story-img {
-  width: 95%;
-  max-width: 1000px;
-  max-height: 70vh;
-  object-fit: contain;
-}
-
-.slide.closing .caption {
-  width: 78%;
-}
-
-.slide.closing h3 {
-  font-size: 28px;
-  color: #0f5b43;
-}
-
-.slide.closing p {
-  font-size: 20px;
-  line-height: 1.8;
-}
-
-/* navigation */
-.nav-buttons {
-  text-align: center;
-  margin: 25px 0 40px;
-}
-
-.nav-buttons button {
-  padding: 10px 20px;
-  margin: 0 8px;
+.puzzle-piece-card {
+  background: #f5f5f5;
   border-radius: 10px;
-  border: none;
+  padding: 8px;
+  cursor: grab;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.puzzle-piece-card.placed {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.puzzle-piece-thumb {
+  max-width: 100%;
+  max-height: 80px;
+  object-fit: contain;
+}
+
+/* board */
+.puzzle-board {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5361/2835;
+  border-radius: 12px;
+  background: #eee;
+  overflow: hidden;
+}
+
+/* piece */
+.board-piece {
+  position: absolute;
+  cursor: grab;
+  user-select: none;
+}
+
+.board-piece.placed {
+  cursor: default;
+}
+
+/* controls */
+.puzzle-actions {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.puzzle-actions button {
   background: #0f5b43;
   color: white;
-  font-size: 18px;
+  border: none;
+  padding: 10px 15px;
+  margin: 5px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: 0.2s ease;
 }
 
-.nav-buttons button:hover {
-  background: #137a5a;
-  transform: translateY(-2px);
+.puzzle-status {
+  text-align: center;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #0f5b43;
 }
 
-/* mobile */
-@media (max-width: 768px) {
-  .slide,
-  .slide.reverse {
-    flex-direction: column;
-    text-align: center;
+/* =========================
+   STORY PAGE (KEEP)
+========================= */
+.story-page {
+  background: white;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width: 900px){
+  .puzzle-layout {
+    grid-template-columns: 1fr;
   }
 
-  .story-img,
-  .slide.center .story-img,
-  .slide.closing .story-img {
-    width: 100%;
-    max-height: none;
-  }
-
-  .caption,
-  .slide.center .caption,
-  .slide.closing .caption {
-    width: 92%;
-  }
-
-  .caption h3,
-  .slide.closing h3 {
-    font-size: 22px;
-  }
-
-  .caption p,
-  .slide.closing p {
-    font-size: 16px;
+  .puzzle-tray {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
