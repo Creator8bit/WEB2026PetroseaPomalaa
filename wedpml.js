@@ -298,3 +298,73 @@ function prevSlide() {
 if (slides.length) {
   showSlide(current);
 }
+
+//game mistake
+// =====================
+// WRONG CLICK
+// =====================
+function wrongClick(event) {
+  const officeInfo = document.getElementById("info");
+  const workshopInfo = document.getElementById("info-workshop");
+  const campInfo = document.getElementById("info-camp");
+
+  if (officeInfo) officeInfo.innerText = "❌ Lebih Spesifik 😏";
+  if (workshopInfo) workshopInfo.innerText = "❌ Lebih Spesifik 😏";
+  if (campInfo) campInfo.innerText = "❌ Lebih Spesifik 😏";
+}
+
+// =====================
+// OFFICE FINDINGS
+// =====================
+function foundOffice(id) {
+  const info = document.getElementById("info");
+  if (!info) return;
+
+  if (id === 1) {
+    info.innerText = "✅ 😰 Menyimpan bahan kimia di botol minuman? fatal ini kalau tertelan.";
+  }
+  if (id === 2) {
+    info.innerText = "✅ 🤢 Sampah kecil doang??? Nanti kecoa dan tikus bertamu lho!";
+  }
+  if (id === 3) {
+    info.innerText = "✅ 😑 Ada lho 5R! Ringkas..Rapi..Resik..Rawat..Rajin";
+  }
+}
+
+// =====================
+// WORKSHOP FINDINGS
+// =====================
+function foundWorkshop(id) {
+  const info = document.getElementById("info-workshop");
+  if (!info) return;
+
+  if (id === 1) {
+    info.innerText = "✅ 😖 \"Licin… bau… ini bukan workshop, ini bahaya!\" Tumpahan oli yang dibiarkan bisa bikin kecelakaan dan mencemari tanah.";
+  }
+  if (id === 2) {
+    info.innerText = "✅ 🤢 \"Udah penuh, tetep dibuang ke sini?\" Sampah numpuk bukan cuma kotor—tapi jadi sumber penyakit dan bau menyengat.";
+  }
+  if (id === 3) {
+    info.innerText = "✅ 😡 \"Ini limbah berbahaya, bukan sampah biasa!\" Penanganan yang salah bisa mencemari tanah dan air dalam jangka panjang.";
+  }
+}
+
+// =====================
+// CAMP FINDINGS
+// =====================
+function foundCamp(id) {
+  const info = document.getElementById("info-camp");
+  if (!info) return;
+
+  if (id === 1) {
+    info.innerText = "✅ 😷 \"Ohok… ohok… pengap banget!\" Asap dari pembakaran sampah ini nggak cuma ganggu—tapi berbahaya buat kesehatan.";
+  }
+  if (id === 2) {
+    info.innerText = "✅ 😵 Satu puntung kecil saja bisa mencemari lingkungan, apalagi sebanyak itu.";
+  }
+  if (id === 3) {
+    info.innerText = "✅ 🤢 \"Bau… kotor… ini camp atau tempat pembuangan?\" Sampah tidak dikelola = sumber penyakit + pencemaran.";
+  }
+}
+
+
