@@ -3,20 +3,8 @@
 ========================= */
 html, body {
   margin: 0;
-  min-height: 100%;
+  height: 100%;
   font-family: Arial, sans-serif;
-  background: #ffffff;
-  color: #222;
-}
-
-/* =========================
-   COLOR SYSTEM
-========================= */
-:root {
-  --primary: #0f5b43;
-  --primary-light: #137a5a;
-  --bg-light: #f5f7f6;
-  --shadow-soft: 0 6px 16px rgba(0,0,0,0.1);
 }
 
 /* =========================
@@ -26,7 +14,7 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
 }
 
 .bg-wrapper {
@@ -48,7 +36,7 @@ html, body {
 }
 
 .btn {
-  background: var(--primary);
+  background: #0f5b43;
   color: white;
   border: none;
   padding: 12px 28px;
@@ -59,27 +47,47 @@ html, body {
 }
 
 .btn:hover {
-  background: var(--primary-light);
+  background: #137a5a;
   transform: translateY(-3px);
+}
+
+/* =========================
+   TWIBBON (UNCHANGED SAFE)
+========================= */
+.twibbon-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 12px 16px 24px;
+}
+
+.twibbon-container {
+  position: relative;
+  width: min(92vw, 520px);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+  background: #e9ecef;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+#photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* =========================
    ECO GAME MENU
 ========================= */
 .eco-page {
-  background: #ffffff;
+  background: white;
 }
 
 .eco-title {
   text-align: center;
-  margin-top: 70px;
-  color: var(--primary);
-}
-
-.eco-subtitle {
-  text-align: center;
-  color: #555;
-  margin-top: -8px;
+  margin-top: 80px;
+  color: #0f5b43;
 }
 
 .eco-container {
@@ -88,7 +96,6 @@ html, body {
   gap: 25px;
   margin-top: 60px;
   flex-wrap: wrap;
-  padding: 0 16px 40px;
 }
 
 .eco-card {
@@ -98,7 +105,7 @@ html, body {
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
   transition: 0.3s;
 }
 
@@ -118,15 +125,13 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: transparent;
   opacity: 0;
   transition: 0.3s;
 }
 
 .eco-overlay p {
-  font-size: 20px;
+  color: #0f5b43;
   font-weight: bold;
-  color: var(--primary);
 }
 
 .eco-card:hover .eco-overlay {
@@ -144,7 +149,7 @@ html, body {
 .scene-title {
   text-align: center;
   margin-top: 60px;
-  color: var(--primary);
+  color: #0f5b43;
 }
 
 .scene-container {
@@ -161,8 +166,8 @@ html, body {
 
 .spot {
   position: absolute;
-  cursor: pointer;
   border-radius: 12px;
+  cursor: pointer;
 }
 
 .info-text {
@@ -171,152 +176,92 @@ html, body {
 }
 
 /* =========================
-   STORY PAGE
+   STORY PAGE (FIXED!)
 ========================= */
-.story-page {
-  background: #ffffff;
+
+/* 🔥 semua di-scope ke .story-page */
+.story-page .slide {
+  display: none;
+  gap: 40px;
 }
 
-.story-title {
-  text-align: center;
-  margin: 25px 0;
-  color: var(--primary);
+.story-page .slide.active {
+  display: flex;
+}
+
+.story-page .story-img {
+  width: 45%;
+  border-radius: 16px;
+}
+
+.story-page .caption {
+  width: 50%;
+  padding: 20px;
+  background: white;
 }
 
 /* =========================
-   PUZZLE PAGE
+   PUZZLE PAGE (ISOLATED)
 ========================= */
+
 .puzzle-page {
-  background: #ffffff;
+  background: white;
   padding: 20px;
 }
 
-.puzzle-title {
-  text-align: center;
-  color: var(--primary);
-  margin-top: 40px;
-  font-size: 30px;
-}
-
-.puzzle-subtitle {
-  text-align: center;
-  color: #555;
-}
-
-/* layout */
-.puzzle-layout {
+.puzzle-page .puzzle-layout {
   width: 95%;
   max-width: 1400px;
-  margin: 30px auto;
+  margin: auto;
   display: grid;
   grid-template-columns: 320px 1fr;
   gap: 20px;
 }
 
-/* panels */
-.puzzle-tray-wrap,
-.puzzle-board-wrap {
+.puzzle-page .puzzle-tray-wrap,
+.puzzle-page .puzzle-board-wrap {
   background: white;
   border-radius: 16px;
   padding: 15px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 
-/* tray */
-.puzzle-tray {
+.puzzle-page .puzzle-tray {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
 }
 
-.puzzle-piece-card {
-  background: var(--bg-light);
+.puzzle-page .puzzle-piece-card {
+  background: #f5f5f5;
   border-radius: 10px;
   padding: 8px;
-  cursor: grab;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.puzzle-piece-card.placed {
-  opacity: 0.4;
-  pointer-events: none;
-}
-
-.puzzle-piece-thumb {
-  max-width: 100%;
-  max-height: 80px;
-  object-fit: contain;
-}
-
-/* board */
-.puzzle-board {
+.puzzle-page .puzzle-board {
   position: relative;
   width: 100%;
   aspect-ratio: 5361/2835;
-  border-radius: 12px;
   background: #eee;
+  border-radius: 12px;
   overflow: hidden;
 }
 
-.puzzle-guide {
+.puzzle-page .board-piece {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  opacity: 0.15;
-  pointer-events: none;
 }
 
-/* piece */
-.board-piece {
-  position: absolute;
-  cursor: grab;
-  user-select: none;
-}
-
-.board-piece.placed {
-  cursor: default;
-}
-
-/* actions */
-.puzzle-actions {
-  text-align: center;
-  margin-top: 10px;
-}
-
-.puzzle-actions button {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  margin: 5px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.puzzle-actions button:hover {
-  background: var(--primary-light);
-}
-
-.puzzle-status {
+.puzzle-page .puzzle-status {
   text-align: center;
   margin-top: 10px;
   font-weight: bold;
-  color: var(--primary);
 }
 
 /* =========================
    RESPONSIVE
 ========================= */
 @media(max-width: 900px){
-  .puzzle-layout {
+  .puzzle-page .puzzle-layout {
     grid-template-columns: 1fr;
-  }
-
-  .puzzle-tray {
-    grid-template-columns: repeat(3, 1fr);
   }
 }
