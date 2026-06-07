@@ -342,149 +342,7 @@ async function downloadTwibbon() {
 }
 
 // =====================
-// PUZZ  const boardPiece = document.createElement("img");// PUZZLE ELEMENTS
-  boardPiece.src = m.src;
-  boardPiece.className = "board-piece";
-
-  boardPiece.style.width = m.w * sx + "px";
-  boardPiece.style.height = m.h * sy + "px";
-  boardPiece.style.left = m.minX * sx + "px";
-  boardPiece.style.top = m.minY * sy + "px";
-
-  puzzleBoard.appendChild(boardPiece);
-}
-
-// =====================
-// DRAG DARI TRAY
-// =====================
-function makeTrayPieceDraggable(card, src) {
-  let ghost = null;
-  let dragging = false;
-  let boardRect = null;
-  let sx = 1;
-  let sy = 1;
-  let targetX = 0;
-  let targetY = 0;
-  let ghostW = 0;
-  let ghostH = 0;
-
-  card.addEventListener("pointerdown", (e) => {
-    if (placedSet.has(src)) return;
-
-    const m = metaMap[src];
-    boardRect = puzzleBoard.getBoundingClientRect();
-    sx = boardRect.width / PUZZLE_W;
-    sy = boardRect.height / PUZZLE_H;
-
-    targetX = m.minX * sx;
-    targetY = m.minY * sy;
-    ghostW = m.w * sx;
-    ghostH = m.h * sy;
-
-    ghost = document.createElement("img");
-    ghost.src = m.src;
-    ghost.className = "puzzle-drag-ghost";
-    ghost.style.width = ghostW + "px";
-    ghost.style.height = ghostH + "px";
-    document.body.appendChild(ghost);
-
-    dragging = true;
-    card.setPointerCapture(e.pointerId);
-
-    moveGhost(e);
-    e.preventDefault();
-  });
-
-  card.addEventListener("pointermove", (e) => {
-    if (!dragging || !ghost) return;
-    moveGhost(e);
-    e.preventDefault();
-  });
-
-  card.addEventListener("pointerup", (e) => {
-    if (!dragging) return;
-    dragging = false;
-
-    // posisi ghost top-left relatif board
-    const gx = e.clientX - boardRect.left - ghostW / 2;
-    const gy = e.clientY - boardRect.top - ghostH / 2;
-
-    const dist = Math.hypot(gx - targetX, gy - targetY);
-    const threshold = Math.max(40, Math.min(boardRect.width, boardRect.height) * 0.06);
-
-    if (
-      e.clientX >= boardRect.left &&
-      e.clientX <= boardRect.right &&
-      e.clientY >= boardRect.top &&
-      e.clientY <= boardRect.bottom &&
-      dist <= threshold
-    ) {
-      placedSet.add(src);
-      placed++;
-      placeBoardPiece(src);
-      card.classList.add("placed");
-      updatePuzzle();
-    }
-
-    if (ghost) {
-      ghost.remove();
-      ghost = null;
-    }
-  });
-
-  card.addEventListener("pointercancel", () => {
-    dragging = false;
-    if (ghost) {
-      ghost.remove();
-      ghost = null;
-    }
-  });
-
-  function moveGhost(e) {
-    if (!ghost) return;
-    ghost.style.left = e.clientX + "px";
-    ghost.style.top = e.clientY + "px";
-  }
-}
-
-// =====================
-// STATUS
-// =====================
-function updatePuzzle() {
-  if (!puzzleStatus) return;
-  puzzleStatus.innerText = `Progress: ${placed} / ${puzzlePieces.length}`;
-
-  if (placed === puzzlePieces.length) {
-    puzzleStatus.innerText = "✅ Enviro Hero Complete!";
-  }
-}
-
-// =====================
-// BUTTONS
-// =====================
-function shufflePuzzlePieces() {
-  placed = 0;
-  placedSet.clear();
-  order = shuffle(puzzlePieces);
-  clearBoard();
-  renderTray();
-  updatePuzzle();
-}
-
-function resetPuzzleBoard() {
-  placed = 0;
-  placedSet.clear();
-  clearBoard();
-  renderTray();
-  updatePuzzle();
-}
-
-// =====================
-// INIT
-// =====================
-if (puzzleTray && puzzleBoard) {
-  initPuzzle();
-}
+// PUZZLE ELEMENTS
 // =====================
 const puzzleTray = document.getElementById("puzzleTray");
 const puzzleBoard = document.getElementById("puzzleBoard");
@@ -503,25 +361,15 @@ const puzzlePieces = Array.from({ length: 15 }, (_, i) =>
 let metaMap = {};
 let order = [];
 let placed = 0;
-let placedSet = new Set();
 
 // =====================
-// SHUFFLE
-// =====================
 function shuffle(arr) {
-  const copy = [...arr];
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [copy[i], copy[j]] = [copy[j], copy[i]];
-  }
-  return copy;
+  return [...arr].sort(() => Math.random() - 0.5);
 }
 
 // =====================
-// ANALYZE PIECE
-// =====================
 function analyze(src) {
-  return new Promise((resolve) => {
+  return new Promise(res => {
     const img = new Image();
     img.src = src;
 
@@ -539,8 +387,7 @@ function analyze(src) {
 
       for (let y = 0; y < c.height; y++) {
         for (let x = 0; x < c.width; x++) {
-          const alpha = data[(y * c.width + x) * 4 + 3];
-          if (alpha > 0) {
+          if (data[(y * c.width + x) * 4 + 3] > 0) {
             minX = Math.min(minX, x);
             minY = Math.min(minY, y);
             maxX = Math.max(maxX, x);
@@ -558,19 +405,11 @@ function analyze(src) {
 
       t.getContext("2d").drawImage(c, minX, minY, w, h, 0, 0, w, h);
 
-      resolve({
-        src: t.toDataURL(),
-        minX,
-        minY,
-        w,
-        h
-      });
+      res({ src: t.toDataURL(), minX, minY, w, h });
     };
   });
 }
 
-// =====================
-// INIT PUZZLE
 // =====================
 async function initPuzzle() {
   if (!puzzleTray || !puzzleBoard) return;
@@ -580,27 +419,23 @@ async function initPuzzle() {
   }
 
   order = shuffle(puzzlePieces);
-  renderTray();
-  clearBoard();
-  updatePuzzle();
+  drawPuzzle();
 }
 
 // =====================
-// RENDER TRAY
-// =====================
-function renderTray() {
+function drawPuzzle() {
   puzzleTray.innerHTML = "";
+  puzzleBoard.querySelectorAll(".board-piece").forEach(p => p.remove());
 
-  order.forEach((src) => {
+  const rect = puzzleBoard.getBoundingClientRect();
+  const sx = rect.width / PUZZLE_W;
+  const sy = rect.height / PUZZLE_H;
+
+  order.forEach(src => {
     const m = metaMap[src];
 
     const card = document.createElement("div");
     card.className = "puzzle-piece-card";
-    card.dataset.src = src;
-
-    if (placedSet.has(src)) {
-      card.classList.add("placed");
-    }
 
     const img = document.createElement("img");
     img.src = m.src;
@@ -609,29 +444,98 @@ function renderTray() {
     card.appendChild(img);
     puzzleTray.appendChild(card);
 
-    if (!placedSet.has(src)) {
-      makeTrayPieceDraggable(card, src);
-    }
+    const p = document.createElement("img");
+    p.src = m.src;
+    p.className = "board-piece";
+
+    const tx = m.minX * sx;
+    const ty = m.minY * sy;
+
+    p.dataset.tx = tx;
+    p.dataset.ty = ty;
+
+    p.style.width = m.w * sx + "px";
+    p.style.height = m.h * sy + "px";
+
+    p.style.left = Math.random() * 200 + "px";
+    p.style.top = Math.random() * 200 + "px";
+
+    puzzleBoard.appendChild(p);
+
+    drag(p, card);
   });
+
+  placed = 0;
+  update();
 }
 
 // =====================
-// CLEAR BOARD
-// =====================
-function clearBoard() {
-  if (!puzzleBoard) return;
-  puzzleBoard.querySelectorAll(".board-piece").forEach(p => p.remove());
+function drag(el, card) {
+  let d = false, ox, oy;
+
+  el.onpointerdown = e => {
+    if (el.classList.contains("placed")) return;
+
+    d = true;
+    const r = el.getBoundingClientRect();
+    ox = e.clientX - r.left;
+    oy = e.clientY - r.top;
+
+    el.setPointerCapture(e.pointerId);
+  };
+
+  el.onpointermove = e => {
+    if (!d) return;
+
+    const rect = puzzleBoard.getBoundingClientRect();
+    el.style.left = e.clientX - rect.left - ox + "px";
+    el.style.top = e.clientY - rect.top - oy + "px";
+  };
+
+  el.onpointerup = () => {
+    d = false;
+
+    const dx = el.offsetLeft - el.dataset.tx;
+    const dy = el.offsetTop - el.dataset.ty;
+
+    if (Math.hypot(dx, dy) < 80) {
+      el.style.left = el.dataset.tx + "px";
+      el.style.top = el.dataset.ty + "px";
+
+      el.classList.add("placed");
+      card.classList.add("placed");
+
+      placed++;
+      update();
+    }
+  };
 }
 
 // =====================
-// BUILD BOARD PIECE
-// =====================
-function placeBoardPiece(src) {
-  const rect = puzzleBoard.getBoundingClientRect();
-  const sx = rect.width / PUZZLE_W;
-  const sy = rect.height / PUZZLE_H;
+function update() {
+  if (!puzzleStatus) return;
 
-  const m = metaMap[src];
+  puzzleStatus.innerText = `Progress: ${placed} / ${puzzlePieces.length}`;
+
+  if (placed === puzzlePieces.length) {
+    puzzleStatus.innerText = "✅ Enviro Hero Complete!";
+  }
+}
+
+// =====================
+function shufflePuzzlePieces() {
+  order = shuffle(puzzlePieces);
+  drawPuzzle();
+}
+
+function resetPuzzleBoard() {
+  drawPuzzle();
+}
+
+// =====================
+if (puzzleTray && puzzleBoard) {
+  initPuzzle();
+}
 
 // Story
 // =====================
@@ -745,5 +649,3 @@ function foundCamp(id) {
     info.innerText = "✅ 🤢 \"Bau… kotor… ini camp atau tempat pembuangan?\" Sampah tidak dikelola = sumber penyakit + pencemaran.";
   }
 }
-
-
