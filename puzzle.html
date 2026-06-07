@@ -1,5 +1,34 @@
 <!DOCTYPE html>
-<head><html lang="en">
+<html lang="en SIDE --><html lang="en">
+    <div class="puzzle-tray-wrap">
+      <h3>Puzzle Pieces</h3>
+      <div id="puzzleTray" class="puzzle-tray"></div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="puzzle-board-wrap">
+      <div id="puzzleBoard" class="puzzle-board"></div>
+
+      <div class="puzzle-actions">
+        <button onclick="shufflePuzzlePieces()">🔀 Shuffle</button>
+        <button onclick="resetPuzzleBoard()">♻️ Reset</button>
+      </div>
+
+      <p id="puzzleStatus" class="puzzle-status">
+        Progress: 0 / 15
+      </p>
+    </div>
+
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button onclick="goGame()" class="btn">⬅ Back to Eco Game</button>
+  </div>
+
+  <script src="wedpml.js"></script>
+</body>
+</html>
+<head>
   <meta charset="UTF-8">
   <title>Enviro Hero Puzzle</title>
   <link rel="stylesheet" href="wedpml.css">
@@ -7,56 +36,9 @@
 
 <body class="puzzle-page">
 
-  <!-- TITLE -->
   <h2 class="puzzle-title">🧩 Enviro Hero</h2>
   <p class="puzzle-subtitle">
     Susun potongan puzzle hingga membentuk gambar utuh 🌱
   </p>
 
-  <!-- PUZZLE LAYOUT -->
   <div class="puzzle-layout">
-
-    <!-- LEFT SIDE (PIECES) -->
-    <div class="puzzle-tray-wrap">
-      <h3>Puzzle Pieces</h3>
-      <div id="puzzleTray" class="puzzle-tray"></div>
-    </div>
-
-    <!-- RIGHT SIDE (BOARD) -->
-    <div class="puzzle-board-wrap">
-
-      <div id="puzzleBoard" class="puzzle-board">
-        <img 
-          src="Assets/slide/slide5-closing.png" 
-          class="puzzle-guide" 
-          alt="Puzzle Guide"
-        >
-      </div>
-
-      <!-- BUTTONS -->
-      <div class="puzzle-actions">
-        <button onclick="shufflePuzzlePieces()">🔀 Shuffle</button>
-        <button onclick="resetPuzzleBoard()">♻️ Reset</button>
-        <button onclick="toggleGuide()">✅ Helper</button>
-      </div>
-
-      <!-- STATUS -->
-      <p id="puzzleStatus" class="puzzle-status">
-        Progress: 0 / 15
-      </p>
-
-    </div>
-
-  </div>
-
-  <!-- BACK BUTTON -->
-  <div style="text-align:center; margin-top:30px;">
-    <button onclick="goGame()" class="btn">
-      ⬅ Back to Eco Game
-    </button>
-  </div>
-
-  <script src="wedpml.js"></script>
-
-</body>
-</html>
