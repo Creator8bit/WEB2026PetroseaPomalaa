@@ -1,34 +1,47 @@
+/* =========================
+   GLOBAL LAYOUT (FIX FOOTER)
+========================= */
 html, body {
   margin: 0;
   height: 100%;
   font-family: Arial, sans-serif;
 }
 
-/* =========================
-   HOMEPAGE (biarkan kalau sudah oke)
-========================= */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* supaya konten dorong footer ke bawah */
 .home {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
+
+/* =========================
+   BACKGROUND + BUTTON
+========================= */
 .bg-wrapper {
   position: relative;
   width: 100%;
   max-width: 1200px;
 }
+
 .bg {
   width: 100%;
   height: auto;
   display: block;
 }
+
 .button-container {
   position: absolute;
   bottom: 30%;
   width: 100%;
   text-align: center;
 }
+
 .btn {
   background: #0f5b43;
   color: white;
@@ -41,10 +54,22 @@ html, body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.4);
   transition: all 0.25s ease;
 }
+
 .btn:hover {
   background: #137a5a;
   transform: translateY(-3px);
   box-shadow: 0 8px 18px rgba(0,0,0,0.6);
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  color: white;
+  background: rgba(0,0,0,0.5);
 }
 
 /* =========================
